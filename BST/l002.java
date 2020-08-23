@@ -160,8 +160,6 @@ public class l002{
     
   }
 
-
-
     public static void solve(){
         // ArrayList<Integer> arr = new ArrayList<>();
         // for(int i = 1; i <= 15; i++) arr.add(i*10);

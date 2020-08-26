@@ -1,4 +1,5 @@
 public class questions{
+    
     public class ListNode {
         int val;
         ListNode next;
@@ -56,11 +57,11 @@ public class questions{
 
     public ListNode reverseList(ListNode head) {
         if(head==null || head.next == null) return head;
-
+        ListNode curr = head ;
         ListNode nHead = null;
 
         while(curr!=null){
-            Node rn = curr;
+            ListNode rn = curr;
             curr = curr.next;
             rn.next = null;
 
@@ -89,7 +90,7 @@ public class questions{
 
         boolean res = true;
         while(curr1!=null && curr2!=null){
-            if(curr1.data != curr2.data){
+            if(curr1.val != curr2.val){
                 res = false;
                 break;
             } 

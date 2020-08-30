@@ -53,14 +53,14 @@ public class questions{
 
         return prev;
     }
-
-    public ListNode reverseList(ListNode head) {
+    
+    public ListNode reverseList2(ListNode head) {
         if(head==null || head.next == null) return head;
 
         ListNode nHead = null;
-
+        ListNode curr = head ;
         while(curr!=null){
-            Node rn = curr;
+            ListNode rn = curr;
             curr = curr.next;
             rn.next = null;
 
@@ -76,7 +76,7 @@ public class questions{
 
     //Leetcode 234
     public boolean isPalindrome(ListNode head) {
-        if(head == null || head.next == null) return head;
+        if(head == null || head.next == null) return true;
 
         ListNode mid = middleNode_(head);
         ListNode nhead = mid.next;
@@ -89,7 +89,7 @@ public class questions{
 
         boolean res = true;
         while(curr1!=null && curr2!=null){
-            if(curr1.data != curr2.data){
+            if(curr1.val != curr2.val){
                 res = false;
                 break;
             } 
@@ -179,7 +179,7 @@ public class questions{
         ep.next = null;
         op.next = null;
 
-        ep.next = ohead.next;
+        ep.next = oHead.next;
         return eHead.next; 
     }
 
@@ -271,7 +271,7 @@ public class questions{
     public ListNode mergeKLists_(ListNode[] lists,int si,int ei) {
         if(si == ei) return lists[si];
         int mid = (si+ei)/2;
-        return mergeTwoLists(mergeKLists_(lists,si,mid). mergeKLists_(list,mid+1,ei));
+        return mergeTwoLists(mergeKLists_(lists,si,mid),mergeKLists_(lists,mid+1,ei));
     }
     
     public ListNode mergeKLists(ListNode[] lists) {
@@ -298,7 +298,7 @@ public class questions{
     }
 
     public ListNode detectCycle(ListNode head) {
-        if (head == null || head == null)
+        if (head == null || head.next == null)
             return null;
 
         
@@ -324,7 +324,7 @@ public class questions{
 
     //Leetcode 160
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        if (head == null || head == null)
+        if (headA == null || headB == null)
             return null;
         
         ListNode tail = headA;
@@ -338,7 +338,7 @@ public class questions{
 
         return ans;
     }
-}
+
 
 //Leetcode 92
 
@@ -387,4 +387,6 @@ public ListNode reverseBetween(ListNode head, int n, int m) {
     }
 
     return head;
+}
+
 }

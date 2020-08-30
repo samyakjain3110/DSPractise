@@ -22,8 +22,8 @@ public class practise{
         // System.out.println(maximum(root)) ;
 
 
-        int[] arr = {7,3,1,0,2,6,4,5,12,9,8,11,10,13,15,14};
-        Node root = BSTPreOrderConstruct(arr,-(int)1e8,(int)1e8) ;
+        // int[] arr = {7,3,1,0,2,6,4,5,12,9,8,11,10,13,15,14};
+        // Node root = BSTPreOrderConstruct(arr,-(int)1e8,(int)1e8) ;
         // display(BSTUsingPreOrder(arr,-(int)1e8,(int)1e8));
         // displayBST(root);
 
@@ -35,9 +35,8 @@ public class practise{
         // allSolutions(root, 9, 0, p);
         // System.out.println(p.find + " " + p.ceil + " " + p.floor + " " + p.pred.val + " " + p.succ.val) ;
 
-        KthSmallest(root) ;
-        System.out.println(root.val) ;
-
+        // KthSmallest(root) ;
+        // System.out.println(root.val) ;
 
     }
 

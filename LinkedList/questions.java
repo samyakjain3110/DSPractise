@@ -1,3 +1,5 @@
+import java.util.* ;
+
 public class questions{
     public class ListNode {
         int val;
@@ -389,4 +391,138 @@ public ListNode reverseBetween(ListNode head, int n, int m) {
     return head;
 }
 
+
+
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+//Leetcode 138
+public void copyNodes(Node head){
+    Node curr = head;
+    while(curr != null){
+        Node next = curr.next;
+        Node node = new Node(curr.val);
+        
+        curr.next = node;
+        node.next = next;
+        
+        curr = next; 
+    }
 }
+
+public void setRandoms(Node head){
+    Node curr = head;
+    while(curr != null){
+        if(curr.random != null)
+        curr.next.random = curr.random.next;
+       curr = curr.next.next;
+    }
+}
+
+public Node extractList(Node head){
+    Node curr = head;
+    Node dummy = new Node(-1);
+    Node prev = dummy;
+
+    while(curr != null){
+        Node next = curr.next.next;
+        prev.next = curr.next;
+
+        curr.next = next;
+        
+        prev = prev.next;
+        curr = curr.next;
+    }
+
+    return dummy.next;
+}
+
+public Node copyRandomList(Node head) {
+    if(head == null) return null;
+
+    copyNodes(head);
+    setRandoms(head);
+    return extractList(head);
+}
+
+
+
+//Leetcode 146
+    class LRUCache {
+        private class LRUNode{
+            int key = 0;
+            int value = 0;
+
+            LRUNode prev = null;
+            LRUNode next = null;
+
+            LRUNode(int key,int value){
+                this.key = key;
+                this.value = value;
+            }
+        }
+
+        private LRUNode head = null;
+        private LRUNode tail = null;
+        private int maxSize = 0;
+        private int size = 0;
+
+        
+        private HashMap<Integer,LRUNode> map = new HashMap<>();
+
+        public LRUCache(int capacity) {
+            this.maxSize = capacity;
+        }
+        
+        public int get(int key) {
+            if(!map.containsKey(key)) return -1;
+
+            LRUNode node = map.get(key);
+            removeNode(node);
+            addLast(node); 
+            return node.value;
+        }
+        
+        public void put(int key, int value) {
+            if(map.containsKey(key)){
+                int val = get(key);
+                if(val != value)
+                this.tail.value = value;
+            }else{
+                LRUNode node = new LRUNode(key,value);
+                map.put(key,node);
+                addLast(node);
+
+                if(this.size > this.maxSize) {
+                    LRUNode rnode = this.head; 
+                    removeNode(rnode);
+                    map.remove(rnode.key);
+                }
+            }
+        }
+
+        public void removeNode(LRUNode node)
+        {
+            LRUNode rm = map.get(node.key) ;
+            LRUNode prevn = rm.prev ;
+            LRUNode nextn = rm.next ;
+            prevn.next = nextn ;
+            map.remove(node.key) ;
+        }
+        public void addLast(LRUNode node)
+        {
+            tail.next = node ;
+            node.prev = tail ;
+            tail = node ;
+        }
+    }
+
+    }
+}    

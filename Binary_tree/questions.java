@@ -180,7 +180,7 @@ public class questions{
     
     int totalCoins = 0;
     public int distributeCoins_(TreeNode root) {
-        if(root = null) return 0;
+        if(root == null) return 0;
         int leftDefeGain = distributeCoins_(root.left);
         int rightDefeGain = distributeCoins_(root.right);
 

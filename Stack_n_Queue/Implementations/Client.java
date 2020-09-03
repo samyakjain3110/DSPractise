@@ -1,12 +1,13 @@
+import Stack.DStack;
 public class Client{
     public static void main(String[] args) throws Exception{
         exper1();
     }
 
     public static void exper1() throws Exception{
-        Stack st = new Stack();
+        DStack<String> st = new DStack<>();
         for(int i = 0;i<10;i++){
-            st.push((int)(Math.random()*100));
+            st.push((char)(Math.random()*10 + 'A')  + "pep");
         }
 
         System.out.println(st);

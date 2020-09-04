@@ -220,7 +220,42 @@ public static int[] asteroidCollision(int[] arr) {
 }
 
 
+ //Leetcode 84
+ public int largestRectangleArea(int[] heights) {
+    int[] nsol = nsol(heights);
+    int[] nsor = nsor(heights);
 
+    int area = 0;
+    for(int i=0;i<heights.length;i++){
+        int w = nsor[i] - nsol[i] -1;
+        int h heights[i];
+        area = Math.max(area,w*h);
+    }
+
+    return area;
+}
+
+public int largestRectangleArea(int[] heights) {
+    Stack<Integer> st = new Stack<>();
+    st.push(-1);
+    int area = 0;
+    for(int i=0;i<heights.length;i++){
+        while(st.peek() != -1 && heights[st.peek()] > heights[i]){
+            int idx = st.pop();
+            int w = i - st.peek() - 1;
+            area = Math.max(area, w * heights[idx]);
+        }
+        st.push(i);
+    }
+
+    while(st.peek() !=-1){
+        int idx = st.pop();
+        int w = heights.length - st.peek() - 1;
+        area = Math.max(area, w * heights[idx]);
+    }
+
+    return area;
+}
     
 
 

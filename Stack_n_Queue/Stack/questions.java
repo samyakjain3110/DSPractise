@@ -167,7 +167,33 @@ public class questions{
         return len;
     }
 
+//Leetcode 1249
+public String minRemoveToMakeValid(String str) {
+    Stack<Integer> st = new Stack<>();
+    int n = str.length();
+    StringBuilder sb = new StringBuilder(str);
+    for(int i=0;i<n;i++){
+        char ch = str.charAt(i);
+        if(ch == ')'){
+            if(st.size()!=0) st.pop();
+            else sb.setCharAt(i,'#');
+        }else if(ch == '(')
+           st.push(i);
+    }
 
+    while(st.size()!=0){
+        int i = st.pop();
+        sb.setCharAt(i,'#');
+    }
+
+    StringBuilder ans = new StringBuilder();
+    for(int i=0;i<n;i++){
+        char ch = sb.charAt(i);
+        if(ch!='#') ans.append(ch);
+    }
+
+    return ans.toString();
+}
 
 
 

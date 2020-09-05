@@ -350,7 +350,46 @@ public int maximalRectangle(char[][] matrix) {
       return water;
   }
 
+  class MinStack {
+    Stack<Long> st = new Stack<>();
+    long minSf = 0; 
+    public MinStack() {
+        
+    }
+    
+    public void push(int val) {
+        long x= val;
+        if(st.size()==0){
+            st.push(x);
+            minSf = x;
+            return;
+        }
 
+        if(x < minSf){
+            st.push( ( x - minSf ) + x);
+            minSf = x;
+        }else{
+            st.push(x);
+        }
+    }
+    
+    public void pop() {   
+        if(st.peek() < minSf){
+            minSf = (minSf - st.peek()) + minSf;
+        }
+
+        st.pop();
+    }
+    
+    public int top() {
+        if(st.peek() < minSf) return (int)minSf;
+        return (int)((long)st.peek());
+    }
+    
+    public int getMin() {
+        return (int)minSf;
+    }
+}
 
 
 }

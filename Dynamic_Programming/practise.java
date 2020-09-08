@@ -230,9 +230,116 @@ public class practise {
             return dp[0] ;
         }
 
-        public static int dice_arr_given(int arr[])
-        {
+        // public static int dice_arr_given(int arr[])
+        // {
 
+        // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+public static int minCostPath(int grid[][],int sr,int sc , int[][] dp)
+{
+    for(sr = grid.length - 1; sr >= 0; sr-- )
+    {
+        for(sc = grid[0].length - 1; sc >= 0; sc--)
+        {
+            if(sc == grid.length - 1&& sc == grid[0].length - 1 )
+            {
+                dp[sr][sc] = grid[sr][sc] ;
+                continue ;
+            }
+            int minCost = (int) 1e8 ;
+            if(sr + 1 < grid.length) minCost = Math.min(minCost,dp[sr+1][sc]) ;
+            if(sc + 1 < grid[0].length) minCost = Math.min(minCost,dp[sr][sc]) ;
+
+            dp[sr][sc] = minCost + grid[sr][sc] ;
         }
+    }
+    return dp[0][0] ;
+}
+
+public static int goldmine(int arr[][] , int dp[][])
+{
+      for (int j = arr[0].length - 1; j >= 0; j--) {
+         for (int i = arr.length - 1; i >= 0; i--) {
+            if (j == arr[0].length - 1) 
+            {
+               dp[i][j] = arr[i][j];
+            } 
+            else if (i == arr.length - 1) 
+            {
+               dp[i][j] = arr[i][j] + Math.max(dp[i][j + 1], dp[i - 1][j + 1]);
+            }
+             else if (i == 0) 
+            {
+               dp[i][j] = arr[i][j] + Math.max(dp[i][j + 1], dp[i + 1][j + 1]);
+            } 
+            else 
+            {
+               dp[i][j] = arr[i][j] + Math.max(dp[i][j + 1], Math.max(dp[i + 1][j + 1], dp[i - 1][j + 1]));
+            }
+         }
+      }
+}
+
+public static int gold(int[][] grid,int sr,int sc,int[][] dp,int[][] dir)
+{
+    for(sc = grid[0].length -1 ; sc >= 0; sc--)
+    {
+        for(sr = grid.length -1 ; sr >= 0;sr--)
+        {
+            if(sc == grid[0].length - 1)
+            {
+                dp[sr][sc] = grid[sr][sc] ;
+                continue ;
+            }
+        }
+        for(int d = 0 ; d < 3 ; d++)
+        {
+            int r = sr + dir[d][0] ;
+            int c = sc + dir[d][1] ;
+
+            if(r >= 0 && c >= 0 && r < grid.length && c < grid[0].length)
+            {
+                dp[sr][sc] = Math.max(dp[sr][sc], dp[r][c] + grid[sr][sc]) ;
+            }
+        }
+    }
+}
+
+ public static int getgold(int arr[][])
+ {
+    int dp[][] = new int[arr.length][arr[0].length] ;
+    goldmine(arr,dp) ;
+    int max = dp[0][0];
+    for (int i = 1; i < dp.length; i++) {
+       max = Math.max(max, dp[i][0]);
+    }
+
+ }     
+
+
+ public static int friends_pairing(int n)
+ {
+     int a = 1 ;
+     int b = 1 ;
+     for(int i = 2 ; i < n ; i++)
+     {
+         int sum = a * (i - 1) + b ;
+         a = b ;
+          b = sum ;
+     }
+     return b ;
+ }
 
 }

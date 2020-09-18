@@ -34,51 +34,63 @@ public class l001{
         // display();
 
         for(int idx = 0 ; idx < N ; idx++ )
-        hamiltonian_Path(idx, 0, vis, "");
+        System.out.println(hamintonianPath(0,0,0,vis,""));
     }
 
     // *************************************************************************
-
-    public static void hamiltonian_Path(int src,int count,boolean[] vis,String path){
-
-        if(count >= N)
-        {
-            System.out.println(path) ;
-            return ;
-        }
-
-        // pair myAns = new pair(0,"");
+   
+    public static int dfs(int src,boolean[] vis){
         vis[src] = true;
-        for(Edge e: graph[src]){
-            if(!vis[e.v]){
-                hamiltonian_Path(e.v, count + 1, vis, path +" " + e.v) ;
-            }
-            
-            vis[src] = false;
-        }
-
-        // return myAns;
-    }
-
-    public static int allPath(int src,int dest,boolean[] vis,int weight,String ans){
-        if(src == dest){
-            System.out.println(ans + src + " @ " + weight);
-            return 1;
-        }
-
-        vis[src]=true;
-        
         int count = 0;
         for(Edge e: graph[src]){
             if(!vis[e.v])
-              count += allPath(e.v,dest,vis,weight + e.w,ans + src + " ");
+             count += dfs(e.v,vis);
         }
-
-        vis[src] = false;
 
         return count;
     }
 
+    //get connected Components.
+    public static int GCC(){
+        int count = 0;
+        boolean[] vis = new boolean[N];
+        
+        int area = 0;
+        for(int i=0;i<N;i++){
+            if(!vis[i]){
+                count++;
+                area += dfs(i,vis);
+            }
+        }
+
+        return count;
+    }
+   
+    public static int hamintonianPath(int src,int osrc,int vtxCount, boolean[] vis,String ans){
+        if(vtxCount == N - 1){
+            int idx = findEdge(src,osrc);
+            if(idx!=-1)
+                System.out.println("Cycle: " + ans + src);
+            else
+                System.out.println("Path: " + ans + src);
+            
+            return 1;
+        }
+
+        vis[src] = true;
+        int count = 0;
+
+        for(Edge e: graph[src]){
+            if(!vis[e.v]){
+                count += hamintonianPath(e.v,osrc,vtxCount+1,vis,ans + src + " ");
+            }
+        }
+
+        vis[src] = false;
+        return count;
+    }
+
+   
     public static class pair{
         int weight = 0;
         String path = "";
@@ -88,8 +100,6 @@ public class l001{
             this.path = path;
         }
     }
-
-   
     public static pair heavyWeightPath(int src,int dest,boolean[] vis){
         if(src==dest){
             return new pair(0,src+"");
@@ -111,6 +121,24 @@ public class l001{
         return myAns;
     }
 
+    public static int allPath(int src,int dest,boolean[] vis,int weight,String ans){
+        if(src == dest){
+            System.out.println(ans + src + " @ " + weight);
+            return 1;
+        }
+
+        vis[src]=true;
+        
+        int count = 0;
+        for(Edge e: graph[src]){
+            if(!vis[e.v])
+              count += allPath(e.v,dest,vis,weight + e.w,ans + src + " ");
+        }
+
+        vis[src] = false;
+
+        return count;
+    }
 
     public static boolean hasPath(int src,int dest,boolean[] vis){
         if(src == dest) return true;

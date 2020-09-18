@@ -144,7 +144,7 @@ public class l001{
         
         return dp[0];
     }
-
+    Integer
     public static int boardPath_Opti(int si,int ei,int[] dp){
         LinkedList<Integer> ll = new LinkedList<>();
         for(si=ei;si>=0;si--){

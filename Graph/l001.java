@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class l001{
     
@@ -38,18 +39,7 @@ public class l001{
     }
 
     // *************************************************************************
-   
-    public static int dfs(int src,boolean[] vis){
-        vis[src] = true;
-        int count = 0;
-        for(Edge e: graph[src]){
-            if(!vis[e.v])
-             count += dfs(e.v,vis);
-        }
-
-        return count;
-    }
-
+    
     //get connected Components.
     public static int GCC(){
         int count = 0;
@@ -65,6 +55,96 @@ public class l001{
 
         return count;
     }
+
+    //BFS.===================================================================
+
+    public static void BFS_001(int src,boolean[] vis){
+        LinkedList<Integer> que = new LinkedList<>();
+        que.addLast(src);
+
+        while(que.size()!=0){
+            int vtx = que.removeFirst();
+            
+            if(vis[vtx]){
+                System.out.print("Cycle: " + vtx);
+                continue;
+            }
+
+            vis[vtx] = true; // mark
+            for(Edge e: graph[vtx]){
+                if(!vis[e.v])
+                que.addLast(e.v);
+            }
+        }
+    }
+
+    public static void BFS_01(int src,boolean[] vis){
+        LinkedList<Integer> que = new LinkedList<>();
+        que.addLast(src);
+        
+        int level=0;
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                int vtx = que.removeFirst();
+            
+                if(vis[vtx])
+                    continue;
+                if(vtx == 6){
+                    System.out.println(level);
+                    break;
+                }
+
+                vis[vtx] = true; // mark
+                for(Edge e: graph[vtx]){
+                    if(!vis[e.v])
+                    que.addLast(e.v);
+                }
+            }
+            level++;
+        }
+    }
+
+    public static void BFS_02(int src,boolean[] vis){
+        LinkedList<Integer> que = new LinkedList<>();
+        que.addLast(src);
+        vis[src] = true;
+        
+        int level=0;
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                int vtx = que.removeFirst();
+            
+                if(vtx == 6){
+                    System.out.println(level);
+                    break;
+                }
+
+                for(Edge e: graph[vtx]){
+                    if(!vis[e.v]){
+                    que.addLast(e.v);
+                    vis[e.v] = true; // mark
+                    }
+                }
+            }
+            
+            level++;
+        }
+    }
+
+
+    public static int dfs(int src,boolean[] vis){
+        vis[src] = true;
+        int count = 0;
+        for(Edge e: graph[src]){
+            if(!vis[e.v])
+             count += dfs(e.v,vis);
+        }
+
+        return count;
+    }
+
    
     public static int hamintonianPath(int src,int osrc,int vtxCount, boolean[] vis,String ans){
         if(vtxCount == N - 1){

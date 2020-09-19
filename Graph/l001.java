@@ -36,9 +36,11 @@ public class l001{
 
         for(int idx = 0 ; idx < N ; idx++ )
         System.out.println(hamintonianPath(0,0,0,vis,""));
+
+        
     }
 
-    // *************************************************************************
+    // ***************************************************************************
     
     //get connected Components.
     public static int GCC(){
@@ -236,7 +238,7 @@ public class l001{
 
 
 
-// **************************************************************************
+  // **************************************************************************
 
     public static void display(){
         StringBuilder sb = new StringBuilder();

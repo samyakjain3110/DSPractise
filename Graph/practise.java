@@ -43,7 +43,7 @@ public class practise {
         display();
     }
 
-    public void solve() 
+    public static void solve() 
     {
         constructgraph() ; 
         display() ; 
@@ -66,15 +66,26 @@ public class practise {
         return idx ;
     }
 
-    public static void removeVtx(int v)
+    public static void removeEdge(int u,int v)
     {
-        int n = graph[v].size() ;
+        // find idx of v in u
+        int idx = findEdge(u,v) ;
+        // remove v fronm u
+        graph[u].remove(idx) ;
 
-        for(int idx = n - 1 ; idx >= 0 ; idx-- )
+        // find idx of u in v 
+        idx = findEdge(v,u) ;
+        // remove u from v
+        graph[v].remove(u) ;
+    }
+
+    public static void removeVtx(int u)
+    {
+        while(graph[u].size() > 0)
         {
-            /// get its neighbour
-            Edge e = graph[v].remove(idx) ;
-            // remove yourself from neighbour
+            // remove all your edges // from last to first to avoid shifting
+            Edge e = graph[u].get(graph[u].size() - 1) ;
+            removeEdge(u, e.v) ;
         }
     }
 

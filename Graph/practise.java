@@ -3,7 +3,7 @@ import java.util.ArrayList ;
 public class practise {
 
 
-    public class Edge {
+    public static class Edge {
         int v;
         int wt ;
         
@@ -40,17 +40,83 @@ public class practise {
         addEdge(5,6,3);
         addEdge(4,6,8);
 
+        // addEdge(0,1,10);
+        // addEdge(1,2,10);
+        // addEdge(2,3,10);
+        // addEdge(3,0,10);
+        // addEdge(0,4,10);
+
         display();
     }
 
     public static void solve() 
     {
         constructgraph() ; 
-        display() ; 
+        // removeEdge(1, 0);
+        // display() ; 
+        int noOfPaths = allPath(0 ,6 ,new boolean[N] ,0 ,"") ;
+        System.out.println(noOfPaths) ;
     }
 
     // **************************************************************************
    
+    public static class Pair{
+        int wt ;
+        String path ;
+        Pair(int wt , String path)
+        {
+            this.wt = wt ;
+            this.path = path ;
+        }
+    }
+
+    public static Pair heavyWeightPath(int src , int dest, boolean vis[])
+    {
+        // if u are already at destination return 0 wt and only yourself in path 
+        if(src == dest)
+        {
+            return new Pair(0,src+ "") ;
+        }
+    }
+
+    public static int allPath(int src ,int dest, boolean[] vis,int wt, String path)
+    {
+        if(src == dest)
+        {
+            System.out.println(path + " " + src + " @ " + wt ) ;
+            return 1 ;
+        }
+        vis[src] = true ;
+
+        int count = 0 ; 
+        for(Edge e : graph[src] )
+        {
+            if( !vis[e.v] )
+            {
+                count += allPath(e.v , dest, vis , wt + e.wt , path + src ) ;
+            }
+        }
+        vis[src] = false ;
+
+        return count ;
+    }
+
+    public static boolean hasPath(int src,int dest,boolean[] vis)
+    {
+        if(src == dest) return true ;
+
+        boolean found = false ;
+        // move to each edge and ask nbr to get path
+        for(Edge e : graph[src])
+        {
+           if(!vis[e.v])
+           {
+                vis[e.v] = true ;
+                found = found || hasPath(e.v, dest,vis) ;
+           } 
+        }
+        return found ;
+    }
    
 
     // **************************************************************************
@@ -76,7 +142,7 @@ public class practise {
         // find idx of u in v 
         idx = findEdge(v,u) ;
         // remove u from v
-        graph[v].remove(u) ;
+        graph[v].remove(idx) ;
     }
 
     public static void removeVtx(int u)

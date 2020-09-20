@@ -146,8 +146,8 @@ public class l001{
 
         return count;
     }
-
-   
+ 
+ 
     public static int hamintonianPath(int src,int osrc,int vtxCount, boolean[] vis,String ans){
         if(vtxCount == N - 1){
             int idx = findEdge(src,osrc);
@@ -172,7 +172,6 @@ public class l001{
         return count;
     }
 
-   
     public static class pair{
         int weight = 0;
         String path = "";
@@ -182,6 +181,7 @@ public class l001{
             this.path = path;
         }
     }
+
     public static pair heavyWeightPath(int src,int dest,boolean[] vis){
         if(src==dest){
             return new pair(0,src+"");
@@ -203,6 +203,7 @@ public class l001{
         return myAns;
     }
 
+    // traverse without cycle 
     public static int allPath(int src,int dest,boolean[] vis,int weight,String ans){
         if(src == dest){
             System.out.println(ans + src + " @ " + weight);
@@ -222,6 +223,7 @@ public class l001{
         return count;
     }
 
+    // without cycle
     public static boolean hasPath(int src,int dest,boolean[] vis){
         if(src == dest) return true;
 

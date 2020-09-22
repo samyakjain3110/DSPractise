@@ -1,4 +1,4 @@
-import java.util.ArrayList ;
+import java.util.* ;
 
 public class l002_directedGraph{
     static int N = 7;
@@ -26,13 +26,13 @@ public class l002_directedGraph{
         vis[src] = true;
         for(int e: graph[src]){
             if(!vis[e])
-               topoDFS(e.v,vis,ans);
+               topoDFS(e,vis,ans);
         }
 
         ans.add(src);
     }
 
-    public static void topologicalOrder(){
+    public static void topologicalOrder1(){
         boolean[] vis = new boolean[N];
         ArrayList<Integer> ans = new ArrayList<>();
 

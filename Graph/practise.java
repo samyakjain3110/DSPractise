@@ -103,19 +103,19 @@ public class practise {
 
     public static boolean hasPath(int src,int dest,boolean[] vis)
     {
-        if(src == dest) return true ;
+        if(src == dest)
+        return true ;
 
-        boolean found = false ;
-        // move to each edge and ask nbr to get path
+        boolean ans = false ;
         for(Edge e : graph[src])
         {
-           if(!vis[e.v])
-           {
-                vis[e.v] = true ;
-                found = found || hasPath(e.v, dest,vis) ;
-           } 
+            if( !vis[e.v] )
+            {
+                ans = ans || hasPath(e.v, dest, vis) ;
+            }
         }
-        return found ;
+
+        return ans ;
     }
    
 

@@ -80,7 +80,8 @@ public class l001{
         }
     }
 
-    public static void BFS_01(int src,boolean[] vis){
+    // find min path to reach dest (min edges b/w src and dest)
+    public static void BFS_01(int src,int dest,boolean[] vis){
         LinkedList<Integer> que = new LinkedList<>();
         que.addLast(src);
         
@@ -92,7 +93,7 @@ public class l001{
             
                 if(vis[vtx])
                     continue;
-                if(vtx == 6){
+                if(vtx == dest){
                     System.out.println(level);
                     break;
                 }

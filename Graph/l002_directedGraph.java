@@ -42,7 +42,7 @@ public class l002_directedGraph{
 
     }
 
-    //Kahn's Algo. for cycle dectection.
+    // Kahn's Algo. for cycle dectection.
 
     public static void topologicalOrder(){
         int[] indegree= new int[N];

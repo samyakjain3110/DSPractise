@@ -60,7 +60,12 @@ public class l001{
 
     //BFS.===================================================================
 
-    public static void BFS_001(int src,boolean[] vis){
+    // remove 
+    // mark 
+    // add neighbours
+
+    // cycle will come 
+     public static void BFS_001(int src,boolean[] vis){
         LinkedList<Integer> que = new LinkedList<>();
         que.addLast(src);
 
@@ -80,8 +85,12 @@ public class l001{
         }
     }
 
-    // find min path to reach dest (min edges b/w src and dest)
-    public static void BFS_01(int src,int dest,boolean[] vis){
+    
+    // level also counted in bfs
+    // (which is actually a levelorder traversal itself)
+
+    // cycle will come
+    public static void BFS_01(int src ,boolean[] vis){
         LinkedList<Integer> que = new LinkedList<>();
         que.addLast(src);
         
@@ -93,10 +102,6 @@ public class l001{
             
                 if(vis[vtx])
                     continue;
-                if(vtx == dest){
-                    System.out.println(level);
-                    break;
-                }
 
                 vis[vtx] = true; // mark
                 for(Edge e: graph[vtx]){
@@ -106,8 +111,13 @@ public class l001{
             }
             level++;
         }
+        System.out.println(level) ;
     }
 
+    // add neighbour only if not visited
+    // also mark nbrs that u added 
+
+    // cycle does not matter here
     public static void BFS_02(int src,boolean[] vis){
         LinkedList<Integer> que = new LinkedList<>();
         que.addLast(src);
@@ -119,15 +129,10 @@ public class l001{
             while(size-->0){
                 int vtx = que.removeFirst();
             
-                if(vtx == 6){
-                    System.out.println(level);
-                    break;
-                }
-
                 for(Edge e: graph[vtx]){
                     if(!vis[e.v]){
                     que.addLast(e.v);
-                    vis[e.v] = true; // mark
+                    vis[e.v] = true;  // mark
                     }
                 }
             }

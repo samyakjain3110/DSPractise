@@ -2,6 +2,35 @@ import java.util.* ;
 
 public class questions{
     
+    // find min path to reach dest (min edges b/w src and dest)
+    public static void BFS_01(int src,int dest,boolean[] vis){
+        LinkedList<Integer> que = new LinkedList<>();
+        que.addLast(src);
+        
+        int level=0;
+        while(que.size()!=0){
+            int size = que.size();
+            while(size-->0){
+                int vtx = que.removeFirst();
+            
+                if(vis[vtx])
+                    continue;
+                if(vtx == dest){
+                    System.out.println(level);
+                    break;
+                }
+
+                vis[vtx] = true; // mark
+                for(Edge e: graph[vtx]){
+                    if(!vis[e.v])
+                    que.addLast(e.v);
+                }
+            }
+            level++;
+        }
+    }
+
+
     //Leetcode 200    
     int n=0,m=0;
     int[][] dir = {{0,1},{0,-1},{1,0},{-1,0}};

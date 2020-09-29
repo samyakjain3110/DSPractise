@@ -478,10 +478,15 @@ public class questions{
 
     // using Kahn's Algo / dependency resolving
     public int[] findOrder1(int N, int[][] prerequisites) {
+
+        // create graph
         ArrayList<Integer>[] graph = new ArrayList[N];
         for(int i=0;i<N;i++) graph[i] = new ArrayList<>();
+       
         int[] indegree= new int[N];
-        
+       
+        // add edges 
+        // also store the indegree of each vtx
         for(int[] a : prerequisites){
             int u = a[0];
             int v = a[1];
@@ -491,20 +496,29 @@ public class questions{
         }
 
         ArrayDeque<Integer> que = new ArrayDeque<>();
+
+        // add all vtx with 0 indegree in the queue
         for(int i=0;i<N;i++) if(indegree[i]==0) que.addLast(i);
 
-        int[] ans = new int[N];
-        int idx = N-1;
+        int[] ans = new int[N] ;
+        int idx = 0 ;
         while(que.size()!=0){
+
+            // remove vtx and add it to ans 
             int vtx = que.removeFirst();
-            ans[idx--] = vtx;
+            ans[idx++] = vtx;
+
+            // check nbr , decrement its indegree(dependency) 
+            // if indegree becomes 0 add it to queue
             for(int e : graph[vtx]){
                 if(--indegree[e]==0)
                    que.addLast(e); 
             }
         }
 
-        if(idx != -1) return  new int[0];
+        // if ans.size == n  , return ans 
+        // else return new arr
+        if(idx != N) return  new int[0];
         return ans;
     }
 

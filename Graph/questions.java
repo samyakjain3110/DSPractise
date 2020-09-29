@@ -447,10 +447,14 @@ public class questions{
 
     //Leetcode 207 
     public boolean canFinish(int N, int[][] prerequisites) {
+
+        // create graph
         ArrayList<Integer>[] graph = new ArrayList[N];
         for(int i=0;i<N;i++) graph[i] = new ArrayList<>();
         int[] indegree= new int[N];
         
+        // add edges 
+        // and also store the indegree
         for(int[] a : prerequisites){
             int u = a[0];
             int v = a[1];
@@ -459,19 +463,25 @@ public class questions{
             graph[u].add(v);
         }
 
+        // push all vtx with 0 indegree into the queue
         ArrayDeque<Integer> que = new ArrayDeque<>();
         for(int i=0;i<N;i++) if(indegree[i]==0) que.addLast(i);
 
         int count = 0;
         while(que.size()!=0){
+            // keep removing from q , updating ans_count
             int vtx = que.removeFirst();
             count++;
+
+            // check the nbrs , decrement indegree
+            // if any nbr's indegree becomes 0 add it to q
             for(int e : graph[vtx]){
                 if(--indegree[e]==0)
                    que.add(e); 
             }
         }
 
+        // return if all dependencies are resolved or not
         return count == N;
     }
 
@@ -570,7 +580,7 @@ public class questions{
         int[] res = new int[ans.size()];
         int idx =0;
         for(int ele: ans) res[idx++] = ele;
-        return ans;
+        return res ;
     }
 
     //Leetcode 329 

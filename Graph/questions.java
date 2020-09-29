@@ -46,6 +46,7 @@ public class questions{
         }
     }
     
+    // can be done using Recursion , dfs, bfs
     public int numIslands(char[][] grid) {
         if(grid.length==0 || grid[0].length==0) return 0;
         

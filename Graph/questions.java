@@ -253,7 +253,7 @@ public class questions{
         return -1;
     }
 
-    public int orangesRotting(int[][] grid) {
+    public int orangesRotting2(int[][] grid) {
         if(grid.length==0 || grid[0].length==0) return 0;
         
         int n = grid.length;
@@ -475,7 +475,9 @@ public class questions{
         return count == N;
     }
 
-    public int[] findOrder(int N, int[][] prerequisites) {
+
+    // using Kahn's Algo / dependency resolving
+    public int[] findOrder1(int N, int[][] prerequisites) {
         ArrayList<Integer>[] graph = new ArrayList[N];
         for(int i=0;i<N;i++) graph[i] = new ArrayList<>();
         int[] indegree= new int[N];
@@ -507,33 +509,49 @@ public class questions{
     }
 
     public static boolean isCyclePresent(ArrayList<Integer>[] graph,int src,int[] vis,ArrayList<Integer> ans){
-        vis[src] = 0;
         
+        // add src as visited
+        vis[src] = 0;
+
+        // call dfs for all nbrs
+        // if any nbr is just visited on same path , there is cycle
+        // if any nbr has completed visit no need to check again
         for(int e : graph[src]){
             if(vis[e]==-1){
                if(isCyclePresent(graph,e,vis,ans)) return true;
             }else if(vis[e]==0) return true;
         }
 
+        // mark src as complete visited
+        // also add it to ans 
         vis[src] = 1;
         ans.add(src);
+
+        return false ;
     }
 
 
-    public int[] findOrder(int N, int[][] prerequisites) {
+    // using dfs
+    public int[] findOrder2(int N, int[][] prerequisites) {
+
+        // create graph
         ArrayList<Integer>[] graph = new ArrayList[N];
         for(int i=0;i<N;i++) graph[i] = new ArrayList<>();
         
+        // add edges in graph
         for(int[] a : prerequisites)
             graph[a[0]].add(a[1]);
 
+        // create vis arr with initial value -1 , denoting unvisited
         int[] vis = new int[N];
         Arrays.fill(vis,-1);
         ArrayList<Integer> ans = new ArrayList<>();
 
+        // call dfs for vtx with 0 indegree
         for(int i=0;i<N;i++){
             if(vis[i]==-1) if(isCyclePresent(graph,i,vis,ans)) return new int[0];
         }
+
 
         int[] res = new int[ans.size()];
         int idx =0;

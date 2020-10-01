@@ -38,7 +38,9 @@ public class l003_unionFind{
     static int[] size;
 
     public static int findPar(int u){
+
         if(u == par[u]) return u;
+        // Path compression
         return par[u] = findPar(par[u]);
     }
 

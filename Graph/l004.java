@@ -1,6 +1,7 @@
-import java.util.* ;
-
-public class l004 {
+import java.util.PriorityQueue;
+import java.util.ArrayList;
+import java.util.Arrays;
+public class l004{
     public static class Edge{
         int v = 0;
         int w = 0;
@@ -122,13 +123,13 @@ public class l004 {
     }
 
     //Dijikstra.======================================================
-    public static class dijiPair implements Comparable<dijiPair>{
+    public static class DijiPair implements Comparable<DijiPair>{
         int vtx = 0;
         int par = 0;
         int weight = 0;
         int wsf = 0;
 
-        dijiPair(int vtx, int par,int weight,int wsf){
+        DijiPair(int vtx, int par,int weight,int wsf){
             this.vtx = vtx;
             this.par = par;
             this.weight = weight;

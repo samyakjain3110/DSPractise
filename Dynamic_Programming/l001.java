@@ -774,7 +774,7 @@ int minDistance(String word1, String word2) {
 
  
  
-public int numDecodings(String s) {
+public int numDecodings2(String s) {
     if(s.length()==0) return 0;
      int[] dp = new int[s.length() + 1];
      

@@ -1,6 +1,5 @@
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.* ;
+
 public class l001{
     public static void print(int[] arr){
         for(int ele: arr)

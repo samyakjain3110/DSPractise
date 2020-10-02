@@ -80,15 +80,18 @@ public class questions{
     public boolean isPalindrome(ListNode head) {
         if(head == null || head.next == null) return true;
 
+        // find mid 
         ListNode mid = middleNode_(head);
         ListNode nhead = mid.next;
         mid.next = null;
 
+        // reverse the list after mid 
         nhead = reverseList(nhead);
 
         ListNode curr1 = head;
         ListNode curr2 = nhead;
 
+        // start comparing from start and mid 
         boolean res = true;
         while(curr1!=null && curr2!=null){
             if(curr1.val != curr2.val){
@@ -100,6 +103,7 @@ public class questions{
             curr2 = curr2.next;
         }
 
+        // convert the list back to original list
         nhead = reverseList(nhead);
         mid.next = nhead;
 

@@ -1178,4 +1178,32 @@ static int knapSack(int N, int W, int val[], int wt[])
     public static void main(String[] args){
         solve();
     }
+
+    public static int LIS_rec(int[] arr,int n,int[] dp){
+        if(n == 0) return dp[n] = 1; 
+        if(dp[n]!=0) return dp[n];
+        
+        int maxLen = 0;
+        for(int i = n-1;i>=0;i--){
+            if(arr[i] < arr[n]){
+                maxLen = Math.max(maxLen,LIS_rec(arr,i,dp) + 1);
+            }
+        }
+    
+        return  dp[n] = maxLen;
+       }
+    
+    public static int LIS_rec(int[] arr){
+        int n = arr.length;
+        int[] dp = new int[n];
+
+        int len = 0;
+        for(int i = n - 1 ; i >= 0; i--){
+            len = Math.max(len,LIS_rec(arr,i,dp));
+        }
+        
+        print(dp);
+        return len;
+    }
+
 }

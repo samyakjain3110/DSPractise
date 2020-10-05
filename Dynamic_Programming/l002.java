@@ -140,6 +140,25 @@ public class l002{
         return dp;
     }
 
+    // https://www.geeksforgeeks.org/maximum-sum-increasing-subsequence-dp-14/
+    public static int maxSumIS(int arr[], int n)  
+	{  
+        int n = arr.length;
+	    int sum = 0;
+	    int[] dp = new int[n];
+	    for(int i = 0;i<n;i++){
+	        dp[i] = arr[i];
+	        for(int j = i - 1;j>=0 ; j--){
+	            if(arr[i] > arr[j]){
+	                dp[i] = Math.max(dp[i] , dp[j] + arr[i]);
+	            }
+	        }
+	        
+	        sum = Math.max(sum,dp[i]);
+	    }
+	    return sum;
+	}  
+
     public static int minNoOFDeletion(int[] arr){
         int n = arr.length();
         int[] dp = new int[n];
@@ -218,6 +237,84 @@ public class l002{
 
             maxLen = Math.max(maxLen,dp[i]);
         }
+        return maxLen;
+    }
+
+    //413
+    public int numberOfArithmeticSlices(int[] A) {
+        if(A.length < 3) return 0;
+        
+        int ans = 0;
+        int count = 0;
+        
+        for(int i = 1; i < arr.length - 1; i++){
+            
+            int d1 = arr[i] - arr[i-1];
+            int d2 = arr[i+1] - arr[i];
+            
+            if(d1 == d2) ans += (++count);
+            else count = 0;
+        }
+        
+        return ans;  
+    }
+    
+    //1218
+    public int longestSubsequence(int[] arr, int d) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        
+        int maxLen = 0;
+        for(int ele : arr){
+            map.put(ele,map.getOrDefault(ele-d,0) + 1);
+            maxLen = Math.max(map.get(ele),maxLen);
+        }
+        
+        return maxLen;   
+    }
+
+    //1027
+    public int longestArithSeqLength(int[] A) { 
+        int n = A.length;
+        HashMap<Integer,Integer>[] dp = new HashMap[n];
+        
+        int len = 0;
+        for(int i = 0;i<n;i++) dp[i] = new HashMap<Integer,Integer>();
+        
+        for(int i = 0; i < n; i++){    
+            for(int j = i - 1; j >= 0; j--){
+                int diff = A[i] - A[j];
+                
+                int currLen = dp[i].getOrDefault(diff,0);
+                int newLen = dp[j].getOrDefault(diff,1) + 1;
+                
+                dp[i].put(diff,Math.max(currLen,newLen));
+                
+                len = Math.max(len,dp[i].get(diff));
+            }
+        }
+        
+        return len;
+    }
+
+    //for You ----> Leetcode 446
+
+    // https://www.geeksforgeeks.org/longest-alternating-subsequence/?ref=rp
+    public static int longestAlternatingSubsequence(int[] arr){
+
+        int n = arr.length;
+        int[][] dp = new int[n][2];  // (decreasing slope, increasing slope)
+
+        int maxLen = 0;
+        for(int i = 0; i < n; i++){
+            dp[i][0] = dp[i][1] = 1;
+            for(int j = i-1; j >= 0 ; j--){   
+                if(arr[i] > arr[j]) dp[i][1] = Math.max(dp[i][1],dp[j][0] + 1);
+                if(arr[i] < arr[j]) dp[i][0] = Math.max(dp[i][0],dp[j][1] + 1);
+            }
+
+            maxLen = Math.max(maxLen, Math.max(dp[i][0],dp[i][1]));
+        }
+
         return maxLen;
     }
 

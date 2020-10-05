@@ -309,6 +309,9 @@ public class l002{
         for(int i = 0; i < n; i++){
             dp[i][0] = dp[i][1] = 1;
             for(int j = i-1; j >= 0 ; j--){   
+
+                // if u want increasing slope , choose dec. prev slope
+                // if u want decreasing slope , choose inc. prev slope
                 if(arr[i] > arr[j]) dp[i][1] = Math.max(dp[i][1],dp[j][0] + 1);
                 if(arr[i] < arr[j]) dp[i][0] = Math.max(dp[i][0],dp[j][1] + 1);
             }

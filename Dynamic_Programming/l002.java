@@ -1,3 +1,5 @@
+import java.util.* ;
+
 public class l002{
     
     public static void print(int[] arr){
@@ -42,7 +44,7 @@ public class l002{
 
     //left to Right
     public static int[] LIS_DP(int[] arr){
-        int n = arr.length();
+        int n = arr.length ;
         int[] dp = new int[n];
 
         dp[0] = 1;
@@ -65,7 +67,7 @@ public class l002{
 
     //Right to Left
     public static int[] LDS_DP(int[] arr){
-        int n = arr.length();
+        int n = arr.length ;
         int[] dp = new int[n];
 
         int len = 0;
@@ -99,7 +101,7 @@ public class l002{
 
     // left to right
     public static int[] LDS_DP_02(int[] arr){
-        int n = arr.length();
+        int n = arr.length ;
         int[] dp = new int[n];
 
         dp[0] = 1;
@@ -121,7 +123,7 @@ public class l002{
 
     //Right to Left
     public static int[] LIS_DP_02(int[] arr){
-        int n = arr.length();
+        int n = arr.length ;
         int[] dp = new int[n];
 
         int len = 0;
@@ -143,7 +145,6 @@ public class l002{
     // https://www.geeksforgeeks.org/maximum-sum-increasing-subsequence-dp-14/
     public static int maxSumIS(int arr[], int n)  
 	{  
-        int n = arr.length;
 	    int sum = 0;
 	    int[] dp = new int[n];
 	    for(int i = 0;i<n;i++){
@@ -160,7 +161,7 @@ public class l002{
 	}  
 
     public static int minNoOFDeletion(int[] arr){
-        int n = arr.length();
+        int n = arr.length ;
         int[] dp = new int[n];
 
         int len = 0;
@@ -247,10 +248,10 @@ public class l002{
         int ans = 0;
         int count = 0;
         
-        for(int i = 1; i < arr.length - 1; i++){
+        for(int i = 1; i < A.length - 1; i++){
             
-            int d1 = arr[i] - arr[i-1];
-            int d2 = arr[i+1] - arr[i];
+            int d1 = A[i] - A[i-1];
+            int d2 = A[i+1] - A[i];
             
             if(d1 == d2) ans += (++count);
             else count = 0;

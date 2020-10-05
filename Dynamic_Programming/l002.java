@@ -327,6 +327,8 @@ public class l002{
     
     public static int BuildingBridges(int[][] arr){
         int n = arr.length;
+
+        // Sort on the basis of 1 parameter
         Arrays.sort(arr,(a,b)->{
             // if(a[0] == b[0]) return b[1] - a[1];
             return a[0] - b[0];
@@ -335,6 +337,7 @@ public class l002{
         int[] dp = new int[n];
         int len = 0;
 
+        // apply lis on 2nd parameter
         for(int i=0;i<n;i++){
             for(int j = i-1;j>=0;j--){
                 if(arr[i][1] > arr[j][1]){

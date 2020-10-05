@@ -318,6 +318,34 @@ public class l002{
         return maxLen;
     }
 
+    //For you --> https://www.geeksforgeeks.org/maximum-sum-alternating-subsequence-sum/
+    
+    
+    public static int BuildingBridges(int[][] arr){
+        int n = arr.length;
+        Arrays.sort(arr,(a,b)->{
+            // if(a[0] == b[0]) return b[1] - a[1];
+            return a[0] - b[0];
+        });
+        
+        int[] dp = new int[n];
+        int len = 0;
+
+        for(int i=0;i<n;i++){
+            for(int j = i-1;j>=0;j--){
+                if(arr[i][1] > arr[j][1]){
+                    dp[i] = Math.max(dp[i],dp[j]+1);
+                }
+            }
+
+            len = Math.max(len,dp[i]);
+        }
+
+        return len;
+    }
+
+
+
     public static void LISset(){
 
         int[] arr = {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15,10};

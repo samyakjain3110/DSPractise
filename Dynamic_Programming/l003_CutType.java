@@ -163,6 +163,31 @@ public class l003_CutType{
         return p;
     }
 
+    public static minMaxPair minMaxValue_02(int[] numArr,char[] chArr,int si,int ei,minMaxPair[][] dp){
+        if(si == ei){
+            int val = numArr[si];
+            return dp[si][ei] = new minMaxPair(val,val);
+        }
+
+        if(dp[si][ei] != null) return dp[si][ei];
+        
+        minMaxPair myAns = new minMaxPair();
+
+        for(int cut = si; cut < ei; cut++){
+            minMaxPair leftTree = minMaxValue_02(numArr,chArr,si , cut,dp);
+            minMaxPair rightTree = minMaxValue_02(numArr,chArr,cut + 1, ei,dp);
+
+            char operator = chArr[cut];
+            minMaxPair p = evalCombination(operator,leftTree,rightTree);
+
+            myAns.minVal = Math.min(myAns.minVal, p.minVal);
+            myAns.maxVal = Math.max(myAns.maxVal, p.maxVal);
+        }
+
+        return dp[si][ei] = myAns;        
+    }
+
+
 
     public static void solve(){
         mcm();

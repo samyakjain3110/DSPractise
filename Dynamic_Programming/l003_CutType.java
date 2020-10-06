@@ -70,6 +70,85 @@ public class l003_CutType{
 
     // for you -> https://www.geeksforgeeks.org/minimum-maximum-values-expression/
 
+    public static class minMaxPair{
+        int minVal = (int) 1e8;
+        int maxVal = 0;
+
+        minMaxPair(int minVal,int maxVal){
+            this.minVal = minVal;
+            this.maxVal = maxVal;
+        }
+
+        minMaxPair(){
+
+        }
+
+        public String toString(){
+            return "(" + this.minVal + ", " + this.maxVal +  ")";
+        }
+    }
+
+    
+    public static int evaluate(char ch,int v1, int v2){
+        if(ch == '+') return v1 + v2;
+        else if(ch == '+') return v1 - v2;    
+        else return v1 * v2;
+    }
+
+    public static minMaxPair minMaxValue(String str,int si,int ei,minMaxPair[][] dp){
+        if(si == ei){
+            int val = str.charAt(si) - '0';
+            return dp[si][ei] = new minMaxPair(val,val);
+        }
+
+        if(dp[si][ei] != null) return dp[si][ei];
+        
+        
+        minMaxPair myAns = new minMaxPair();
+
+        for(int cut = si + 1; cut < ei; cut+=2){
+            minMaxPair leftTree = minMaxValue(str,si , cut - 1,dp);
+            minMaxPair rightTree = minMaxValue(str,cut + 1, ei,dp);
+
+            
+            char ch = str.charAt(cut);
+            myAns.minVal = Math.min(myAns.minVal,evaluate(ch,leftTree.minVal,rightTree.minVal));
+            myAns.maxVal = Math.max(myAns.maxVal,evaluate(ch,leftTree.maxVal,rightTree.maxVal));
+        }
+
+        return dp[si][ei] = myAns;
+    }
+
+    public static minMaxPair minMaxValue_DP(String str,int SI,int EI,minMaxPair[][] dp){
+        int n = str.length();
+        for(int gap = 0 ; gap < n; gap++){
+            for(int si = 0, ei = gap; ei < n ; si++,ei++){
+                if(si == ei){
+                    int val = str.charAt(si) - '0';
+                    dp[si][ei] = new minMaxPair(val,val);
+                    continue;
+                }
+                
+                minMaxPair myAns = new minMaxPair();
+        
+                for(int cut = si + 1; cut < ei; cut+=2){
+                    minMaxPair leftTree = dp[si][cut-1];//minMaxValue(str,si , cut - 1,dp);
+                    minMaxPair rightTree = dp[cut+1][ei];//minMaxValue(str,cut + 1, ei,dp);
+        
+                    
+                    char ch = str.charAt(cut);
+                    myAns.minVal = Math.min(myAns.minVal,evaluate(ch,leftTree.minVal,rightTree.minVal));
+                    myAns.maxVal = Math.max(myAns.maxVal,evaluate(ch,leftTree.maxVal,rightTree.maxVal));
+                }
+        
+                dp[si][ei] = myAns;
+            }
+        }
+
+        return dp[SI][EI];
+    }
+
+
     public static void solve(){
         mcm();
     }

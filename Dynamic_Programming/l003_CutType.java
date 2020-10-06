@@ -187,7 +187,41 @@ public class l003_CutType{
         return dp[si][ei] = myAns;        
     }
 
+    public static void minMaxValue(){
+        String str = "1+2*3+4*5+2*3+3+3+3*3*8*7";
 
+        int n = str.length();
+        minMaxPair[][] dp = new minMaxPair[n][n];
+        minMaxPair ans = minMaxValue(str,0,n-1,dp);
+
+        System.out.println(ans.minVal + " , " + ans.maxVal);
+
+        for(minMaxPair[] d : dp){
+            for(minMaxPair e: d){
+                System.out.print(e);
+            }
+            System.out.println();
+        }
+    }
+
+    // Leetcode 312
+    public int maxCoins(int[] nums,int si,int ei ,int[][] dp) {
+        if(dp[si][ei] != -1) return dp[si][ei];
+        
+        int liVal = (si - 1 == -1) ? 1 : nums[si - 1];
+        int riVal = (ei + 1 == nums.length) ? 1 : nums[ei + 1];
+        
+        int myCost = 0;
+        
+        for(int cut = si;cut<=ei;cut++){
+            int leftTree = (cut == si)?0:maxCoins(nums,si,cut-1,dp);
+            int rightTree = (cut == ei)?0:maxCoins(nums,cut+1,ei,dp);
+            
+            myCost = Math.max(myCost, leftTree + liVal * nums[cut] * riVal + rightTree); 
+        }
+        
+        return dp[si][ei] = myCost;
+    }
 
     public static void solve(){
         mcm();

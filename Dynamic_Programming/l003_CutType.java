@@ -149,6 +149,21 @@ public class l003_CutType{
     }
 
 
+    public static minMaxPair evalCombination(char operator,minMaxPair p1,minMaxPair p2){
+
+        int a = evaluate(operator,p1.minVal,p2.minVal);
+        int b = evaluate(operator,p1.minVal,p2.maxVal);
+        int c = evaluate(operator,p1.maxVal,p2.minVal);
+        int d = evaluate(operator,p1.maxVal,p2.maxVal);
+
+        minMaxPair p = new minMaxPair();
+        p.minVal = Math.min(Math.min(a,b),Math.min(c,d));
+        p.maxVal = Math.max(Math.max(a,b),Math.max(c,d));
+
+        return p;
+    }
+
+
     public static void solve(){
         mcm();
     }

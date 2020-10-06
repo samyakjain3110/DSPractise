@@ -223,6 +223,17 @@ public class l003_CutType{
         return dp[si][ei] = myCost;
     }
 
+    public int maxCoins(int[] nums) {
+        int n = nums.length;
+        if(n == 0) return 0;
+        
+        int[][] dp = new int[n][n];
+        for(int[] d: dp)Arrays.fill(d,-1);
+        
+        return maxCoins(nums,0,n-1,dp);
+        
+    }
+
     public static void solve(){
         mcm();
     }

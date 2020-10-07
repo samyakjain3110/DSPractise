@@ -324,6 +324,23 @@ public class l003_CutType{
         return minTriangulation(A,0,n-1,dp); 
     }
 
+//Leetcode 132
+public static int minCut_01(String str,int si,int ei ,int[][] dp,boolean[][] isPalindrome){
+    if(isPalindrome[si][ei]) return 0;
+
+    if(dp[si][ei] != -1) return dp[si][ei];
+
+    int minAns = (int) 1e8;
+    for(int cut = si; cut < ei;cut++){
+        int leftTree = minCut_01(str,si,cut,dp,isPalindrome);
+        int rightTree = minCut_01(str,cut + 1,ei,dp,isPalindrome);
+
+        minAns = Math.min(minAns,leftTree + 1 + rightTree);
+    }
+
+    return dp[si][ei] = minAns;
+}
+
     public static void solve(){
         mcm();
     }

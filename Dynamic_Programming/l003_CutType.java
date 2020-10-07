@@ -1,3 +1,5 @@
+import java.util.* ;
+
 public class l003_CutType{
 
     public static void print(int[] arr){
@@ -234,7 +236,6 @@ public class l003_CutType{
         
     }
 
-
     public static int OBST(int[] freq,int si,int ei,int[][] dp,int[] prefixSum){
         if(dp[si][ei]!=0) return dp[si][ei];
 
@@ -275,31 +276,6 @@ public class l003_CutType{
         print2D(dp);
     }
 
-
-// 1039
-    public int minTriangulation(int[] A,int si,int ei,int[][] dp){
-        if(ei - si < 2) return dp[ei][si] = 0;
-        if(dp[ei][si] != -1 ) return dp[si][ei];
-
-        int minAns = (int) 1e8;
-        for(int cut = si + 1; cut < ei; cut++){
-            int leftTree = minTriangulation(A,si,cut,dp);
-            int rightTree = minTriangulation(A,cut,ei,dp);
-
-            int myAns = leftTree + arr[si] * arr[cut] * arr[ei] + rightTree;
-            minAns = Math.min(minAns,myAns);
-        }
-
-        return dp[si][ei] = minAns;
-    }
-
-    public int minScoreTriangulation(int[] A) {
-        int n = A.length;
-        int[][] dp = new int[n][n];
-        for(int[] d: dp) Arrays.fill(d,-1);
-        return minTriangulation(A,0,n-1,dp); 
-    }
-
     // 1039
     public int minTriangulation(int[] A,int si,int ei,int[][] dp){
         if(ei - si < 2) return dp[ei][si] = 0;
@@ -324,105 +300,138 @@ public class l003_CutType{
         return minTriangulation(A,0,n-1,dp); 
     }
 
-//Leetcode 132
-public static int minCut_01(String str,int si,int ei ,int[][] dp,boolean[][] isPalindrome){
-    if(isPalindrome[si][ei]) return 0;
+       //Leetcode 132
+       public static int minCut_01(String str,int si,int ei ,int[][] dp,boolean[][] isPalindrome){
+        if(isPalindrome[si][ei]) return 0;
 
-    if(dp[si][ei] != -1) return dp[si][ei];
-
-    int minAns = (int) 1e8;
-    for(int cut = si; cut < ei;cut++){
-        int leftTree = minCut_01(str,si,cut,dp,isPalindrome);
-        int rightTree = minCut_01(str,cut + 1,ei,dp,isPalindrome);
-
-        minAns = Math.min(minAns,leftTree + 1 + rightTree);
-    }
-
-    return dp[si][ei] = minAns;
-}
-
-public static int minCut_02(String str,int si,int ei ,int[] dp,boolean[][] isPalindrome){
-    if(isPalindrome[si][ei]) return dp[si] = 0;
-    if(dp[si] != -1 ) return dp[si];
-
-    int minAns = (int) 1e8;
-    for(int cut = si; cut<=ei;cut++){
-        if(isPalindrome[si][cut]){
-            minAns = Math.min(minAns, minCut_02(str,cut+1,ei,dp,isPalindrome) + 1);
-        }
-    }
-
-    return dp[si] = minAns;
-}
-
-public static int minCut_02DP(String str,int SI,int EI ,int[] dp,boolean[][] isPalindrome){
-    for(int si = EI;si>=0;si--){
-        if(isPalindrome[si][EI]){
-            dp[si] = 0;
-            continue;
-        }
+        if(dp[si][ei] != -1) return dp[si][ei];
 
         int minAns = (int) 1e8;
-        for(int cut = si; cut<=EI;cut++){
+        for(int cut = si; cut < ei;cut++){
+            int leftTree = minCut_01(str,si,cut,dp,isPalindrome);
+            int rightTree = minCut_01(str,cut + 1,ei,dp,isPalindrome);
+
+            minAns = Math.min(minAns,leftTree + 1 + rightTree);
+        }
+
+        return dp[si][ei] = minAns;
+    }
+
+    public static int minCut_02(String str,int si,int ei ,int[] dp,boolean[][] isPalindrome){
+        if(isPalindrome[si][ei]) return dp[si] = 0;
+        if(dp[si] != -1 ) return dp[si];
+
+        int minAns = (int) 1e8;
+        for(int cut = si; cut<=ei;cut++){
             if(isPalindrome[si][cut]){
-                minAns = Math.min(minAns, dp[cut+1] + 1);
+                minAns = Math.min(minAns, minCut_02(str,cut+1,ei,dp,isPalindrome) + 1);
             }
         }
 
-        dp[si] = minAns;                
+        return dp[si] = minAns;
     }
+    
+    public static int minCut_02DP(String str,int SI,int EI ,int[] dp,boolean[][] isPalindrome){
+        for(int si = EI;si>=0;si--){
+            if(isPalindrome[si][EI]){
+                dp[si] = 0;
+                continue;
+            }
 
-    return dp[SI];
-}
-
-public static int minCut(String str) {
-    int n = str.length();
-    // int[][] dp = new int[n][n];
-    // for(int[] d: dp) Arrays.fill(d,-1);
-
-    boolean[][] isPalindrome = new boolean[n][n];
-    for(int gap = 0 ; gap < n ;gap++){
-        for(int i = 0, j = gap; j<n;i++,j++){
-            if(gap == 0) isPalindrome[i][j] = true;
-            else if(gap == 1) isPalindrome[i][j] = str.charAt(i) == str.charAt(j);
-            else isPalindrome[i][j] = str.charAt(i) == str.charAt(j) && isPalindrome[i + 1][j - 1];
+            int minAns = (int) 1e8;
+            for(int cut = si; cut<=EI;cut++){
+                if(isPalindrome[si][cut]){
+                    minAns = Math.min(minAns, dp[cut+1] + 1);
+                }
+            }
+    
+            dp[si] = minAns;                
         }
+
+        return dp[SI];
+    }
+    
+    
+    public static int minCut(String str) {
+        int n = str.length();
+        // int[][] dp = new int[n][n];
+        // for(int[] d: dp) Arrays.fill(d,-1);
+
+        boolean[][] isPalindrome = new boolean[n][n];
+        for(int gap = 0 ; gap < n ;gap++){
+            for(int i = 0, j = gap; j<n;i++,j++){
+                if(gap == 0) isPalindrome[i][j] = true;
+                else if(gap == 1) isPalindrome[i][j] = str.charAt(i) == str.charAt(j);
+                else isPalindrome[i][j] = str.charAt(i) == str.charAt(j) && isPalindrome[i + 1][j - 1];
+            }
+        }
+
+
+        // int ans = minCut_01(str,0,n-1,dp, isPalindrome);
+
+        int[] dp = new int[n];
+        Arrays.fill(dp,-1);
+        int ans = minCut_02DP(str,0,n-1,dp, isPalindrome);
+        
+        // for(int ele : dp) System.out.print(ele + " ");
+        return ans;
+    }
+    
+    //Leetcode 45
+    public int jump(int[] nums,int idx,int[] dp) {
+        if(idx == nums.length - 1){
+            return dp[idx] = 0;    
+        }
+        
+        if(dp[idx] != -1) return dp[idx];
+        
+        if(nums[idx] == 0){
+            return dp[idx] = (int)1e8;
+        }
+        
+        int minSteps = (int) 1e8;
+        for(int jump = 1; idx + jump < nums.length && jump <= nums[idx]; jump++){
+            int recAns = jump(nums,idx + jump,dp);
+            
+            if(recAns != (int)1e8){
+                minSteps = Math.min(minSteps, recAns + 1);
+            }
+        }
+        
+        return dp[idx] = minSteps;
+    
+    }
+    
+    public int jump2(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        Arrays.fill(dp,-1);
+        
+        int ans = jump2(nums,0,dp);
+        
+        return ans;
+        
     }
 
-       // int ans = minCut_01(str,0,n-1,dp, isPalindrome);
+    public int jump(int[] nums) {
+        int n = nums.length;
 
-       int[] dp = new int[n];
-       Arrays.fill(dp,-1);
-       int ans = minCut_02DP(str,0,n-1,dp, isPalindrome);
-       
-       // for(int ele : dp) System.out.print(ele + " ");
-       return ans;
-   }
-   
-   //Leetcode 45
-   public int jump(int[] nums,int idx,int[] dp) {
-       if(idx == nums.length - 1){
-           return dp[idx] = 0;    
-       }
-       
-       if(dp[idx] != -1) return dp[idx];
-       
-       if(nums[idx] == 0){
-           return dp[idx] = (int)1e8;
-       }
-       
-       int minSteps = (int) 1e8;
-       for(int jump = 1; idx + jump < nums.length && jump <= nums[idx]; jump++){
-           int recAns = jump(nums,idx + jump,dp);
-           
-           if(recAns != (int)1e8){
-               minSteps = Math.min(minSteps, recAns + 1);
-           }
-       }
-       
-       return dp[idx] = minSteps;
-   
-   }
+        int maxEnding = 0;
+        int maxPossibleJump = 0;
+        int jump = 0;
+        for(int i=0;i<n;i++){
+
+            maxPossibleJump = Math.max(maxPossibleJump, i + nums[i]);
+            if(i == maxEnding){
+                maxEnding = maxPossibleJump;
+                jump++;
+            }
+        }
+
+        return jump;
+    }
+
+
 
     public static void solve(){
         mcm();

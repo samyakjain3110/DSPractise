@@ -275,6 +275,55 @@ public class l003_CutType{
         print2D(dp);
     }
 
+
+// 1039
+    public int minTriangulation(int[] A,int si,int ei,int[][] dp){
+        if(ei - si < 2) return dp[ei][si] = 0;
+        if(dp[ei][si] != -1 ) return dp[si][ei];
+
+        int minAns = (int) 1e8;
+        for(int cut = si + 1; cut < ei; cut++){
+            int leftTree = minTriangulation(A,si,cut,dp);
+            int rightTree = minTriangulation(A,cut,ei,dp);
+
+            int myAns = leftTree + arr[si] * arr[cut] * arr[ei] + rightTree;
+            minAns = Math.min(minAns,myAns);
+        }
+
+        return dp[si][ei] = minAns;
+    }
+
+    public int minScoreTriangulation(int[] A) {
+        int n = A.length;
+        int[][] dp = new int[n][n];
+        for(int[] d: dp) Arrays.fill(d,-1);
+        return minTriangulation(A,0,n-1,dp); 
+    }
+
+    // 1039
+    public int minTriangulation(int[] A,int si,int ei,int[][] dp){
+        if(ei - si < 2) return dp[ei][si] = 0;
+        if(dp[ei][si] != -1 ) return dp[si][ei];
+
+        int minAns = (int) 1e8;
+        for(int cut = si + 1; cut < ei; cut++){
+            int leftTree = minTriangulation(A,si,cut,dp);
+            int rightTree = minTriangulation(A,cut,ei,dp);
+
+            int myAns = leftTree + arr[si] * arr[cut] * arr[ei] + rightTree;
+            minAns = Math.min(minAns,myAns);
+        }
+
+        return dp[si][ei] = minAns;
+    }
+
+    public int minScoreTriangulation(int[] A) {
+        int n = A.length;
+        int[][] dp = new int[n][n];
+        for(int[] d: dp) Arrays.fill(d,-1);
+        return minTriangulation(A,0,n-1,dp); 
+    }
+
     public static void solve(){
         mcm();
     }

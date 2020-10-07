@@ -341,6 +341,20 @@ public static int minCut_01(String str,int si,int ei ,int[][] dp,boolean[][] isP
     return dp[si][ei] = minAns;
 }
 
+public static int minCut_02(String str,int si,int ei ,int[] dp,boolean[][] isPalindrome){
+    if(isPalindrome[si][ei]) return dp[si] = 0;
+    if(dp[si] != -1 ) return dp[si];
+
+    int minAns = (int) 1e8;
+    for(int cut = si; cut<=ei;cut++){
+        if(isPalindrome[si][cut]){
+            minAns = Math.min(minAns, minCut_02(str,cut+1,ei,dp,isPalindrome) + 1);
+        }
+    }
+
+    return dp[si] = minAns;
+}
+
     public static void solve(){
         mcm();
     }

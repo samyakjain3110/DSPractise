@@ -375,6 +375,20 @@ public static int minCut_02DP(String str,int SI,int EI ,int[] dp,boolean[][] isP
     return dp[SI];
 }
 
+public static int minCut(String str) {
+    int n = str.length();
+    // int[][] dp = new int[n][n];
+    // for(int[] d: dp) Arrays.fill(d,-1);
+
+    boolean[][] isPalindrome = new boolean[n][n];
+    for(int gap = 0 ; gap < n ;gap++){
+        for(int i = 0, j = gap; j<n;i++,j++){
+            if(gap == 0) isPalindrome[i][j] = true;
+            else if(gap == 1) isPalindrome[i][j] = str.charAt(i) == str.charAt(j);
+            else isPalindrome[i][j] = str.charAt(i) == str.charAt(j) && isPalindrome[i + 1][j - 1];
+        }
+    }
+
 
     public static void solve(){
         mcm();

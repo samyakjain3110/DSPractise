@@ -389,6 +389,40 @@ public static int minCut(String str) {
         }
     }
 
+       // int ans = minCut_01(str,0,n-1,dp, isPalindrome);
+
+       int[] dp = new int[n];
+       Arrays.fill(dp,-1);
+       int ans = minCut_02DP(str,0,n-1,dp, isPalindrome);
+       
+       // for(int ele : dp) System.out.print(ele + " ");
+       return ans;
+   }
+   
+   //Leetcode 45
+   public int jump(int[] nums,int idx,int[] dp) {
+       if(idx == nums.length - 1){
+           return dp[idx] = 0;    
+       }
+       
+       if(dp[idx] != -1) return dp[idx];
+       
+       if(nums[idx] == 0){
+           return dp[idx] = (int)1e8;
+       }
+       
+       int minSteps = (int) 1e8;
+       for(int jump = 1; idx + jump < nums.length && jump <= nums[idx]; jump++){
+           int recAns = jump(nums,idx + jump,dp);
+           
+           if(recAns != (int)1e8){
+               minSteps = Math.min(minSteps, recAns + 1);
+           }
+       }
+       
+       return dp[idx] = minSteps;
+   
+   }
 
     public static void solve(){
         mcm();

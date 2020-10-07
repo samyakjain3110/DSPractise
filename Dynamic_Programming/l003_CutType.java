@@ -234,6 +234,47 @@ public class l003_CutType{
         
     }
 
+
+    public static int OBST(int[] freq,int si,int ei,int[][] dp,int[] prefixSum){
+        if(dp[si][ei]!=0) return dp[si][ei];
+
+        int myRes = (int) 1e8;
+        // int sum = 0;
+        for(int cut = si; cut<=ei;cut++){
+            int leftTree = cut == si ? 0 : OBST(freq,si,cut-1,dp,prefixSum);
+            int rightTree = cut == ei ? 0 : OBST(freq,cut + 1,ei,dp,prefixSum);
+
+            int myAns = leftTree +  (prefixSum[ei] - (si == 0 ? 0 : prefixSum[si-1]))  + rightTree;  
+            // int myAns = leftTree + rightTree;
+            
+            myRes = Math.min(myRes,myAns);
+            
+            // sum+=freq[cut];
+        }
+
+        return dp[si][ei] = myRes;
+    }
+
+    public static void OBST(){
+        int[] freq = {34, 8, 50};
+        int[] val = {10, 12, 20};
+
+        int n = val.length;
+
+        int[][] dp = new int[n][n];
+
+        int[] prefixSum = new int[n];
+        
+        int prev = 0;
+        for(int i = 0;i<n;i++){
+            prefixSum[i] = prev + freq[i];
+            prev = prefixSum[i];
+        }
+
+        System.out.println(OBST(freq,0,n-1,dp,prefixSum));
+        print2D(dp);
+    }
+
     public static void solve(){
         mcm();
     }

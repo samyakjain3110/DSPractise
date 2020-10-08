@@ -460,7 +460,52 @@ public class l003_CutType{
         ans[1] %= mod;
     }
     
+     // 0 th - > true, 1st -> false.
+     public static int[] booleanParenthesization(String str,int si,int ei,int[][][] dp){
+        if(si == ei){
+            int[] base = new int[2];
+            base[0] = str.charAt(si) == 'T' ? 1 : 0;
+            base[1] = str.charAt(si) == 'F' ? 1 : 0;
+            
+            return base;
+        }
+        
+        if(dp[si][ei][0] != 0 || dp[si][ei][1] != 0) return dp[si][ei];
+        
+        for(int cut = si + 1; cut < ei; cut += 2){
+            
+            int[] left = booleanParenthesization(str,si,cut-1,dp);
+            int[] right = booleanParenthesization(str,cut + 1,ei,dp);
+            
+            char ch = str.charAt(cut);
+            evaluate(left,right,ch,dp[si][ei]);
+    }
     
+        return dp[si][ei];
+    }
+
+    // Leetcode 1278
+    public int palindromePartition(String s,int k,int si,int ei,int[][] dp,int[][] pdp){
+        if(k >= (ei-si+1)){
+            return dp[k][ei] = (k == (ei-si+1))?0:(int)1e8;
+        }
+        
+        if(k == 1 || si  == ei){
+            return dp[k][ei] = ( si == ei ) ? 0 : pdp[0][ei];
+        }
+        
+        if(dp[k][ei] != -1) return dp[k][ei];
+        
+        int ans = (int)1e8;
+        for(int cut = si; cut < ei;cut++){
+            int recAns = palindromePartition(s,k-1,si,cut,dp,pdp);
+            
+            if(recAns!=(int)1e8)
+            ans = Math.min(ans,recAns + pdp[cut+1][ei]);
+        }
+        
+        return dp[k][ei] =  ans;
+    }
 
     public static void solve(){
         mcm();

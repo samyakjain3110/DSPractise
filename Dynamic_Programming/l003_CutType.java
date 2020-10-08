@@ -507,6 +507,26 @@ public class l003_CutType{
         return dp[k][ei] =  ans;
     }
 
+    public int palindromePartition(String s, int k) {
+        int n = s.length();
+        if(k==0 || k == n ) return 0;
+        
+        int[][] dp = new int[k+1][n+1];
+        for(int[] d:dp) Arrays.fill(d,-1);
+        int[][] pdp = new int[n][n];
+        
+        for(int gap = 1 ;gap <n;gap++){
+            for(int i =0,j=gap;j<n;i++,j++){
+                pdp[i][j] += pdp[i+1][j-1];
+                if(s.charAt(i) != s.charAt(j)) pdp[i][j] += 1;
+            }
+        }
+        
+        
+        int ans = palindromePartition(s,k,0,n-1,dp,pdp);
+        return ans; 
+    }
+
     public static void solve(){
         mcm();
     }

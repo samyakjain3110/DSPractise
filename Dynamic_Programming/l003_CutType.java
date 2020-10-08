@@ -542,7 +542,34 @@ public class l003_CutType{
         return n - dp[0][n-1] <= k;   
     }
 
-
+    //688
+    int dx[] = { -2, -1, 1, 2, -2, -1, 1, 2 }; 
+    int dy[] = { -1, -2, -2, -1, 1, 2, 2, 1 }; 
+    
+    public double knightProbability(int N, int K, int r, int c,double[][][] dp ) {
+        if(K == 0) dp[K][r][c] = 1;
+        
+        if(dp[K][r][c] != 0.0) return dp[K][r][c];
+        
+        double count = 0.0;
+        for(int d = 0;d<8;d++){
+            int x = r + dx[d];
+            int y = c + dy[d];
+            
+            if(x>=0 && y>=0 && x<N && y<N){
+                count += knightProbability(N,K-1,x,y,dp);
+            }
+        }
+        
+        return dp[K][r][c] = count/8.0;
+    }
+    
+    
+    public double knightProbability(int N, int K, int r, int c) {
+        double[][][] dp = new double[K+1][N+1][N+1];
+        return knightProbability(N,K,r,c,dp);
+    }
+    
     public static void solve(){
         mcm();
     }

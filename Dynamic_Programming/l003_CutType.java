@@ -407,7 +407,7 @@ public class l003_CutType{
         int[] dp = new int[n];
         Arrays.fill(dp,-1);
         
-        int ans = jump2(nums,0,dp);
+        int ans = jump(nums,0,dp);
         
         return ans;
         
@@ -431,7 +431,36 @@ public class l003_CutType{
         return jump;
     }
 
-
+    static int mod = 1003;
+    public static void evaluate (int[] left,int[] right,char ch , int[] ans){ 
+        int tleft = (left[0] % mod + left[1] % mod) % mod;
+        int tright = (right[0]% mod + right[1]% mod)% mod;
+        
+        int tTF = ((tleft % mod) * (tright% mod ))% mod;
+        
+        if(ch == '|'){
+            
+            ans[0] += (tTF % mod - (left[1]% mod) * (right[1])% mod + mod) % mod;
+            ans[1] += ((left[1]% mod) * (right[1])% mod) % mod;
+        
+            
+        }else if(ch == '&'){
+            
+            ans[0] += ((left[0]% mod) * (right[0])% mod) % mod;
+            ans[1] += (tTF % mod - (left[0]% mod) * (right[0])% mod + mod) % mod;
+        }else{
+            
+            ans[0] += ( ((left[0]% mod) * (right[1])% mod) % mod + ((left[1]% mod) * (right[0])% mod) % mod)
+                      %mod;
+            ans[1] += ( ((left[0]% mod) * (right[0])% mod) % mod + ((left[1]% mod) * (right[1])% mod) % mod)
+                      %mod;           
+        }
+        
+        ans[0] %= mod;
+        ans[1] %= mod;
+    }
+    
+    
 
     public static void solve(){
         mcm();

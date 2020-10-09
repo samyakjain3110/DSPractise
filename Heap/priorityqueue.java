@@ -106,5 +106,37 @@ public class priorityqueue{
     //     downHeapify(idx);
     //     upHeapify(idx);
     // }   
+
+        public void heapsort(int arr[] )
+        {
+            intialize(true);
+            for(int ele : arr) pq.add(ele);
+            constructHeap();
+
+            int n = arr.length ;
+
+            for(int idx = 0 ; idx < n ; idx++ )
+            {
+                swap(idx , n - idx) ;
+                downHeapify(idx , n - idx - 1); 
+            }
+
+        }
+
+        private void downHeapify(int pi, int ei ){  // O(log(n))
+            int maxidx = pi;
+            int lci = (pi << 1) + 1;
+            int rci = (pi << 1) + 2;
+    
+            if(lci < ei && compareTo(lci,maxidx) > 0 ) maxidx = lci;
+            if(rci < ei && compareTo(rci,maxidx) > 0) maxidx = rci;
+    
+            if(maxidx != pi){
+                swap(maxidx,pi);
+                downHeapify(maxidx);
+            }
+        }
+
+
 }
 

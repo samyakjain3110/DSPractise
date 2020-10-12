@@ -58,3 +58,26 @@ public int kthSmallest(int[][] matrix, int k) {
     return Matrix[val/m][val%m];
 }
 
+
+// 973
+public int[][] kClosest(int[][] points, int K) {
+    int n = points.length;
+    PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->{
+        return  (b[0] * b[0] + b[1] * b[1]) - (a[0] * a[0] + a[1] * a[1]);
+    }); 
+
+    for(int[] d : points){
+        pq.add(d);
+        if(pq.size() > K) pq.poll();
+    }
+
+    int[][] ans = new int[pq.size()][2];
+    int idx =0;
+
+    while(pq.size()!=0){
+        ans[idx++] = pq.poll();
+    }
+    
+    return ans;
+}
+

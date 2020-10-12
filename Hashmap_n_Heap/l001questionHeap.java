@@ -81,3 +81,20 @@ public int[][] kClosest(int[][] points, int K) {
     return ans;
 }
 
+// https://www.geeksforgeeks.org/nearly-sorted-algorithm/
+
+public static void nearlySorted(int[] arr,int k){
+    PriorityQueue<Integer> pq = new PriorityQueue<>();
+    k++;
+
+    int n = arr.length;
+    int idx = 0; 
+    for(int i = 0; i < n;i++){
+        pq.add(arr[i]);
+        if(pq.size() > k){
+            arr[idx++] = pq.poll();
+        }
+    }
+
+    while(pq.size()!=0) arr[idx++] = pq.poll();
+}

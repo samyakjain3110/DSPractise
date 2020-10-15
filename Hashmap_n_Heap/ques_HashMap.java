@@ -40,3 +40,46 @@ public class ques_HashMap{
         return ans;
         
     }
+
+    
+    return true;
+}
+
+/** Get a random element from the set. */
+public int getRandom() {
+    int idx = rand.nextInt(list.size()); 
+    return list.get(idx);
+}
+}   
+
+// https://www.geeksforgeeks.org/maximum-consecutive-ones-or-zeros-in-a-binary-array/
+
+class FreqStack {
+
+HashMap<Integer,Integer> freq = new HashMap<>();
+HashMap<Integer,Stack<Integer>> map = new HashMap<>();
+int maxFreq = 0;
+
+public FreqStack() {
+    
+}
+
+public void push(int x) {
+    freq.put(x,freq.getOrDefault(x,0) + 1);
+    maxFreq = Math.max(maxFreq,freq.get(x));
+    
+    map.putIfAbsent(freq.get(x),new Stack<>());
+    map.get(freq.get(x)).push(x);
+}
+
+public int pop() {
+    int rv = map.get(maxFreq).pop();
+    freq.put(rv,maxFreq - 1);
+    if(map.get(maxFreq).size() == 0) {
+        map.remove(maxFreq);
+        maxFreq--;
+    }
+    return rv;
+    
+}
+}

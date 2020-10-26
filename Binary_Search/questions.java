@@ -43,4 +43,32 @@ public class questions{
     }   
 }
 
+
+    // https://practice.geeksforgeeks.org/problems/inversion-of-array/0#
+    public static int inversionCount_(int[] arr,int[] sortedArray,int si,int ei){
+        if(si >= ei) return 0;
+        
+        int mid = (si + ei) / 2;
+        int count = 0;
+        
+        count += inversionCount_(arr,sortedArray,si,mid);
+        count += inversionCount_(arr,sortedArray,mid + 1,ei);
+
+        count += totalInversion(arr,sortedArray,si,mid + 1, ei);
+        return count;
+    }
+
+    public static int totalInversion(int[] arr,int[] sortedArray,int si,int mid,int ei){
+        int count = 0;
+        int i = si, j = mid, k = si;
+        while(i <= mid - 1 && j <= ei){
+            if(arr[i] <= arr[j])
+                sortedArray[k++] = arr[i++];
+            else{
+                sortedArray[k++] = arr[j++];
+                count += mid - i;
+            }
+        }
+
+
 }

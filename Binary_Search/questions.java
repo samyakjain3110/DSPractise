@@ -1,3 +1,4 @@
+
 public class questions{
 
     //Leetcode 74
@@ -17,31 +18,74 @@ public class questions{
         
         return false;
     }
-   // 658
-   public List<Integer> findClosestElements(int[] A, int k, int x) {
-    List<Integer> arr = new ArrayList<>();
-    for(int ele : A) arr.add(ele); 
-    
-    int n = A.length;
-    
-    if(x <= A[0]) return arr.subList(0,k);
-    else if(x >= A[n-1]) return arr.subList(n - k ,n);
-    else{
-        int idx  = Collections.binarySearch(arr,x);
-        if(idx < 0){
-            idx = -idx - 1; 
-        }
+
+    //for you : Leetcode 34 
+
+    // 658
+    public List<Integer> findClosestElements(int[] A, int k, int x) {
+        List<Integer> arr = new ArrayList<>();
+        for(int ele : A) arr.add(ele); 
         
-        int si = Math.max(0,idx - k);
-        int ei = Math.min(idx + k, n - 1);
+        int n = A.length;
         
-        while(ei - si > k - 1){
-            if((x - A[si])  > (A[ei] - x)) si++;
-            else ei--;
+        if(x <= A[0]) return arr.subList(0,k);
+        else if(x >= A[n-1]) return arr.subList(n - k ,n);
+        else{
+            int idx  = Collections.binarySearch(arr,x);
+            if(idx < 0){
+                idx = -idx - 1; 
+            }
+            
+            int si = Math.max(0,idx - k);
+            int ei = Math.min(idx + k, n - 1);
+            
+            while(ei - si > k - 1){
+                if((x - A[si])  > (A[ei] - x)) si++;
+                else ei--;
+            }
+            return arr.subList(si,ei+1);
+        }   
+    }
+
+    //Leetcode 300
+    public int lengthOfLIS(int[] nums) {
+        if(nums.length <= 1) return nums.length;
+
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(nums[0]);
+        
+        for(int i = 1; i < nums.length; i++){
+            int idx = Collections.binarySearch(list,nums[i]);
+            if(idx >= 0) continue;
+
+            idx = -idx - 1;
+            if(idx == list.size()) list.add(nums[i]);
+            else list.set(idx,nums[i]);
         }
-        return arr.subList(si,ei+1);
-    }   
-}
+
+        return list.size();
+    }
+
+    public int lengthOfLIS(int[] nums) {
+        if(nums.length <= 1) return nums.length;
+
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(nums[0]);
+        
+        for(int i = 1; i < nums.length; i++){
+            int si = 0, ei = list.size();
+            while(si < ei){
+                int mid = (si+ei)>>1;
+                if(list.get(mid) < nums[i]) si = mid + 1;
+                else ei = mid;
+            }
+
+            if(ei == list.size()) list.add(nums[i]);
+            else list.set(ei,nums[i]);
+        }
+
+        return list.size();
+    }
 
 
     // https://practice.geeksforgeeks.org/problems/inversion-of-array/0#
@@ -70,6 +114,41 @@ public class questions{
             }
         }
 
+        while(i <= mid - 1) sortedArray[k++] = arr[i++];
+        while(j <= ei) sortedArray[k++] = arr[j++];
+
+        while(si <= ei) arr[si] = sortedArray[si++]; 
+        return count;
+    }
+
+    public static int inversionCount(int[] arr){
+        if(arr.length <= 1) return 0;
+
+        int n = arr.length;
+        int[] sortedArray = new int[n];
+
+        return inversionCount_(arr,sortedArray,0,n-1);
+    }
+
+    //240
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix.length==0 || matrix[0].length==0) return false;
+        
+        int n = matrix.length;
+        int m = matrix[0].length;
+        
+        int r = n -1 ;
+        int c = 0;
+        while(r >=0 && c < m){
+            int ele = matrix[r][c];
+            if(ele == target) return true;
+            if(ele < target) c++;
+            else r--;
+        }
+        
+        return false;
+    }
+
     //875
     public int minEatingSpeed(int[] piles, int H) {
         int si = 1, ei = 1000000;
@@ -95,6 +174,34 @@ public class questions{
 
         return true;
     }
+
+    
+    //774
+    public double minmaxGasDist(int[] arr, int K) {     
+        double si = 0.0, ei = 1e8, mid = 0.0;
+        while(ei - si > 1e-5){
+            mid =(ei + si) / 2.0;
+            if(isValidToPlaceGasStation(arr,mid,K)) ei = mid;
+            else si = mid;
+          
+        }
+        
+        return mid;
+    }
+    
+    public boolean isValidToPlaceGasStation(int[] arr,double dis,int k){
+        int gasStationCount = 0;
+        
+        int n = arr.length;
+        for(int i = 1; i < n; i++){
+            double x = (arr[i] - arr[i-1]) / dis - (1e-6 + 1e-6)/dis;
+            gasStationCount += (int)x;
+            if(gasStationCount > k) return false;
+        }
+        
+        return true;
+    }
+
     //Leetcode 33
     public int search(int[] arr, int target) {
         int lo = 0;
@@ -115,6 +222,53 @@ public class questions{
         return -1;
     }
  
+    // Leetcode 81
+    public boolean search(int[] arr, int data) {
+        int lo = 0;
+        int hi = arr.length-1;
+        
+        while(lo <= hi){
+            int mid = (lo + hi) >> 1;
+            
+            if(arr[mid] == data || arr[lo] == data) return true;
+            else if(arr[lo] < arr[mid]){
+                if(arr[lo] <= data && data < arr[mid]) hi = mid - 1;
+                else lo = mid + 1;
+            }else if(arr[mid] < arr[hi]){
+                if(arr[mid] < data && data <= arr[hi]) lo = mid + 1;
+                else hi = mid - 1;
+            }else lo++;  
+        }
+        
+        return false;
+    }
+
+    //Leetcode 786
     
+    public int[] kthSmallestPrimeFraction(int[] A, int k) {
+        int n = A.length;
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->{
+            return A[a[0]]*A[b[1]] - A[b[0]]*A[a[1]];
+        });
+
+        for(int i=0;i<n;i++){
+            pq.add(new int[]{0,i});
+        }
+
+        while(--k>0){
+            int[] a = pq.remove();
+            a[0]++;
+            if(a[0] < a[1]) pq.add(a);
+        }
+        
+        int[] a = pq.remove();
+        a[0] = A[a[0]];
+        a[1] = A[a[1]];
+        
+        return a;
+    }
+
+
+
 
 }

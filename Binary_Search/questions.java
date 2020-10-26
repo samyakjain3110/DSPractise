@@ -70,5 +70,32 @@ public class questions{
             }
         }
 
+    //875
+    public int minEatingSpeed(int[] piles, int H) {
+        int si = 1, ei = 1000000;
+        // Arrays.sort(piles);
+        while(si < ei){
+            int eatingSpeed = (si + ei) >> 1;
+            if(isPossibleToEat(piles,eatingSpeed, H))
+               ei = eatingSpeed; 
+            else si = eatingSpeed + 1;
+        }
+        
+        return ei;
+    }
+    
+    public boolean isPossibleToEat(int[] arr,int eatingSpeed,int H){
+        int n = arr.length;
+        int hours = 0;
+        for(int i=n-1;i>=0;i--){
+             // hour[i] += (int)Math.ceil((arr[i])/(eatingSpeed * 1.0));
+            hours += (arr[i]-1)/eatingSpeed + 1;
+            if(hours > H) return false;
+        }
+
+        return true;
+    }
+
+    
 
 }

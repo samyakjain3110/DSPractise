@@ -1,3 +1,5 @@
+import java.util.* ;
+
 public class l001{
 
     public static int BS01(int[] arr,int ele){

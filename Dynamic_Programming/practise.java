@@ -9,11 +9,19 @@ public class practise{
     {
         // fibonacci_iterative(9) ;
         // fibonacci_recursive(4) ;
-        fibonacci_memoized(4, new int[5]) ;
+        // fibonacci_memoized(4, new int[5]) ;
+        // System.out.println(fibonacci_dp(12) ) ;
+        System.out.println(fibonacci_opti(12)) ;
     }
 
     // ==========================================================================================
 
+    // Traversals
+
+    
+
+
+    // ------------------------------------------------------------------
 
     // fibonacci
 
@@ -87,9 +95,44 @@ public class practise{
 
     public static int fibonacci_dp(int n)
     {
-        
+        if(n <= 1) return n ;
+
+        int dp[] = new int[n + 1] ;
+
+        for(int idx = 0 ;idx <= n ; idx++ )
+        {
+            if(idx <= 1)
+            {
+                dp[idx] = idx ;
+                continue ;
+            } 
+    
+            dp[idx] = dp[idx - 1] + dp[idx - 2] ;
+
+        }
+
+            return dp[n] ;
     }
 
+    public static int fibonacci_opti(int n)
+    {
+        if(n <= 1) return n ;
+
+        int a = 0 ; 
+        int b = 1 ;
+        int c = 1 ;
+
+        int dp[] = new int[n + 1] ;
+
+        for(int idx = 2 ;idx <= n ; idx++ )
+        {
+            c = a + b ;
+            a = b ;
+            b = c ;
+        }
+
+            return c ;
+    }
 
     // ===========================================================================================
 

@@ -268,7 +268,11 @@ public class questions{
         return a;
     }
 
-
-
+// Leetcode 4
+double findMedianSortedArrays(int[] nums1, int[] nums2) {
+    int n = nums1.length;
+    int m = nums2.length;
+    if(n > m)
+        return findMedianSortedArrays(nums2,nums1);
 
 }

@@ -830,4 +830,383 @@ public class questions{
         return weight;
     }
 
+    public class Edge{
+        int v = 0;
+        int w = 0;
+        Edge(int v,int w){
+            this.v = v;
+            this.w = w;
+        }
+    }
+
+    public class pair{
+        int src = 0;        
+        int k = 0;
+        int wsf = 0;
+
+        pair(int src,int wsf,int k){
+            this.src = src;
+            this.wsf = wsf;
+            this.k = k;
+        }
+    }
+
+    //787
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+        ArrayList< Edge >[] gp = new ArrayList[n];
+        for(int i=0;i<n;i++) gp[i] = new ArrayList<>();
+
+        for(int[] a: flights) gp[a[0]].add(new Edge(a[1],a[2]));
+
+        PriorityQueue<pair> pq = new PriorityQueue<>((a,b)->{
+            return a.wsf - b.wsf;
+        });
+
+        pq.add(new pair(src,0,K+1));
+        while(pq.size()!=0){
+            pair vtx = pq.poll();
+            
+            if(vtx.k < 0) continue;
+            if(vtx.src == dst) return vtx.wsf;
+            for(Edge e: gp[vtx.src]){
+                pq.add(new pair(e.v, vtx.wsf + e.w,vtx.k - 1));
+            }
+        }
+
+        return -1;
+    }
+
+    public int findCheapestPrice(int n, int[][] flights, int s, int dst, int K) {
+        // u,v,w
+        ArrayList<int[]>[] gp = new ArrayList[n];
+        for(int i=0;i<n;i++) gp[i] = new ArrayList<>();
+
+        for(int[] a: flights) gp[a[0]].add(new int[]{a[1],a[2]});
+
+        // src, wsf , k
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->{
+            return a[1] - b[1];
+        });
+
+        pq.add(new int[]{s,0,K+1});
+        while(pq.size()!=0){
+            int[] vtx = pq.poll();
+            int src = vtx[0];
+            int wsf = vtx[1];
+            int k = vtx[2]; 
+
+            if(k < 0) continue;
+            if(src == dst) return wsf;
+            for(int[] e: gp[src]){
+                pq.add(new int[]{e[0], wsf + e[1], k - 1});
+            }
+        }
+
+        return -1;
+    }
+
+    public int networkDelayTime(int[][] times, int N, int K) {
+
+        // v,w
+        ArrayList<int[]>[] gp = new ArrayList[N+1];
+        for(int i=0;i<=N;i++) gp[i] = new ArrayList<>();
+
+        for(int[] a: times) gp[a[0]].add(new int[]{a[1],a[2]});
+
+        // src, time
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->{
+            return a[1] - b[1];
+        });
+        
+        int[] dis = new int[N+1];
+        Arrays.fill(dis, (int)1e8 );
+        
+        pq.add(new int[]{K,0});
+        dis[K] = 0;
+
+        while(pq.size()!=0){
+            int[] vtx = pq.poll();
+            int src = vtx[0];
+            int time = vtx[1];
+
+            for(int[] e: gp[src]){
+                if(time+e[1] < dis[e[0]]){ 
+                    dis[e[0]] = time + e[1];
+                    pq.add(new int[]{e[0],time+e[1]});
+                }
+            }
+        }
+      
+     int maxTime = 0;
+     for(int i = 1;i<=N;i++){
+         int ele = dis[i];
+         if(ele == (int) 1e8) return -1;
+         
+         maxTime = Math.max(maxTime,ele);
+     }
+     return maxTime;
+ }
+
+ // for you: ------------------>> leetcode 886
+ 
+ //Leetcode : 778
+ public int swimInWater(int[][] grid) {
+    if(grid.length==0 || grid[0].length == 0) return 0;
+    
+    int n = grid.length;
+    int m = grid[0].length;
+    
+    
+    PriorityQueue<Integer> pq = new PriorityQueue<>((a,b)->{
+        return grid[a/m][a%m] - grid[b/m][b%m];
+    });
+    
+    int maxTime = 0;
+    pq.add(0);
+    
+    int[][] dir = {{0,1},{0,-1},{1,0},{-1,0}};
+    boolean[][] vis = new boolean[n][m];
+    vis[0][0] = true;
+    
+    while(pq.size()!=0){
+      int val = pq.poll();
+      
+      maxTime = Math.max(maxTime,grid[val/m][val%m]);
+      if(val/m == n-1 && val%m == m-1) return maxTime;
+      
+      for(int d=0;d<4;d++){
+          int r = val/m + dir[d][0];
+          int c = val%m + dir[d][1];
+        
+          if(r>=0 && c>=0 && r< n && c< m && !vis[r][c]){
+            vis[r][c] = true;  
+            pq.add(r*m + c);
+          }
+      }
+    }
+    
+    return -1;
+}
+
+//815
+public int numBusesToDestination(int[][] routes, int src, int desti) {
+    if(src == desti) return 0;
+  int n=routes.length;
+  HashMap<Integer,ArrayList<Integer>> BusStandToBus=new HashMap<>();
+  for(int i=0;i<n;i++){
+      for(int ele: routes[i]){
+          BusStandToBus.putIfAbsent(ele,new ArrayList<>());
+          BusStandToBus.get(ele).add(i);
+      }
+  }
+
+  boolean[] BusVis = new boolean[n];
+  HashSet<Integer> busStandVis = new HashSet<>();
+
+  ArrayDeque<Integer> que = new ArrayDeque<>();
+  
+  que.addLast(src);
+  busStandVis.add(src);
+  int count = 0;
+
+  while(que.size()!=0){
+      int size = que.size();
+      while(size-->0){
+
+          int busStand = que.removeFirst();
+          
+          for(int buses : BusStandToBus.get(busStand)){
+              
+              if(BusVis[buses]) continue;
+
+              for(int bs : routes[buses]){
+                  if(!busStandVis.contains(bs)){
+                      busStandVis.add(bs);
+                      que.add(bs);
+                      if(bs == desti) return count + 1;
+                  }
+              }
+
+              BusVis[buses] = true;
+          }
+      }
+      count++;
+  }
+
+  return -1;
+ 
+}
+
+
+// https://www.hackerrank.com/challenges/journey-to-the-moon/problem
+public class Solution {
+    static int[] par;
+    static int[] size;
+    public static int findPar(int u){
+        if(u == par[u]) return u;
+        return par[u] = findPar(par[u]);
+    }
+
+    public static void main(String[] args){
+        Scanner scn = new Scanner(System.in);
+
+        int n = scn.nextInt();
+        int p = scn.nextInt();
+        
+        par = new int[n];
+        size = new int[n];
+
+        for(int i=0;i<n;i++) par[i] = i;
+
+        Arrays.fill(size,1);
+
+        for(int i=0;i<p;i++){
+            int p1 = findPar(scn.nextInt());
+            int p2 = findPar(scn.nextInt());
+
+            if(p1!=p2){
+                par[p1] = p2;
+                size[p2]+=size[p1];
+            }
+        }
+
+        long sum = 0;
+        long res = 0;
+        for(int i=0;i<n;i++){
+            if(i==par[i]){
+                res += size[i] * sum;
+                sum += size[i];
+            }
+        }
+
+        System.out.println(res);
+    }
+}
+
+    // 685
+    int[] par;
+    public int findPar(int u){
+       if(u == par[u]) return u;
+        return par[u] = findPar(par[u]);
+    }
+    
+    public int[] findRedundantDirectedConnection(int[][] edges) {
+        int n = edges.length; 
+        int a = -1, b=-1, cycle = -1;   
+        
+        int[] actualParent = new int[n+1];
+        Arrays.fill(actualParent,-1);
+        
+        par=new int[n+1];
+        for(int i=0;i<=n;i++) par[i] = i;
+        
+        for(int i=0;i<n;i++){
+            int p = edges[i][0];
+            int c = edges[i][1];
+            
+            if(actualParent[c]!=-1){
+                a = actualParent[c];
+                b = i;
+                continue;
+            }
+            
+            actualParent[c] = i;
+            int globalParent = findPar(p); 
+            if(globalParent == c) cycle = i;
+            else par[c] = globalParent;
+        }
+        
+        
+        if(cycle == -1) return edges[b];
+        else if(b == -1) return edges[cycle];
+        else return edges[a];
+    }
+    
+    //802
+    public boolean isCyclePresent(int[][] graph,int src,int[] vis) {
+        vis[src] = 1;
+        for(int e : graph[src]){
+            if(vis[e]==0){
+                if(isCyclePresent(graph,e,vis)) return true;
+            }else if(vis[e] == 1) return true;
+        }
+
+        vis[src] = 2;
+        return false;
+    }
+
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int n = graph.length;
+        int[] vis = new int[n+1];
+
+        List<Integer> ans = new ArrayList<>();
+        for(int i = 0;i < n;i++){
+            if(vis[i] == 1) continue;
+            if(vis[i]==2 || !isCyclePresent(graph,i,vis))
+              ans.add(i);
+        }
+
+        return ans;
+    }
+
+    //990
+    public boolean equationsPossible(String[] equations) {
+        par = new int[26];
+        for(int i=0;i<26;i++) par[i] = i;
+        
+        for(String s: equations){
+            if(s.charAt(1) == '=')
+                par[findPar(s.charAt(0)-'a')] = findPar(s.charAt(3)-'a');
+        }
+        
+        for(String s: equations){
+            if(s.charAt(1) == '!' && findPar(s.charAt(0)-'a') == findPar(s.charAt(3)-'a'))
+                return false;
+        }
+        
+        return true;
+    }
+
+    
+    //959
+    public int regionsBySlashes(String[] grid) {
+        if(grid.length==0) return 0;
+        
+        int n = grid.length;
+        int m = n + 1;
+        
+        par = new int[m*m];
+        for(int i = 1;i<n;i++){
+            for(int j = 1;j<n;j++){
+                int p = i + j * m;
+                par[p] = p;
+            }
+        }
+        
+        int count = 1;
+        for(int i = 0;i<n;i++){
+            String s = grid[i];
+            for(int j = 0; j<s.length();j++){
+                char ch = s.charAt(j);
+                if(ch == '/'){
+                    int p1 = findPar((i+1) + j*m);
+                    int p2 = findPar( i  + (j + 1)*m);
+                    
+                    if(p1 != p2){
+                        par[p1] = Math.min(p1,p2);
+                        par[p2] = Math.min(p1,p2);
+                    }else count++;
+                }else if(ch == '\\'){
+                    int p1 = findPar(i + j*m);
+                    int p2 = findPar( (i+1)  + (j + 1)*m);
+                    
+                    if(p1 != p2){
+                        par[p1] = Math.min(p1,p2);
+                        par[p2] = Math.min(p1,p2);
+                    }else count++;
+                }
+            }   
+        }
+        return count;
+    }
 }

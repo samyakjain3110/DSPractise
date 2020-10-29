@@ -134,11 +134,11 @@ public class hashmap<K,V>{
     }
 
     private LinkedList<Node> group(K key){
-        int gidx = hasing(key);
+        int gidx = hashing(key);
         return groupArray[gidx];
     }
 
-    private int hasing(K key){
+    private int hashing(K key){
         int val = key.hashCode();
         val = Math.abs(val);
         return val % groupArray.length;

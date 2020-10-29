@@ -1210,3 +1210,21 @@ public class Solution {
         return count;
     }
 }
+
+
+
+// =====================================================
+
+class TestClass {
+    public static void main(String args[] ) throws Exception {
+         chocolateJourney();
+    }
+
+    public static void dijkstra(int src,ArrayList<int[]>[] graph,int[] dis){
+        // {vtx, dis}
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a,b)->{
+            return a[1] - b[1];
+        });
+
+
+        

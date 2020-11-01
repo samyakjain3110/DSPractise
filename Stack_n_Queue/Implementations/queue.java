@@ -30,7 +30,7 @@ public class queue{
         this.arr = new int[n];
         this.size = 0;
         this.head = 0;
-        this.tail = 0
+        this.tail = 0;
         this.maxSize = n;
     }
 

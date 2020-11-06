@@ -1,4 +1,3 @@
-package Heap;
 import java.util.ArrayList;
 public class priorityqueue{
 
@@ -8,16 +7,16 @@ public class priorityqueue{
     // Constructor.===========================================
 
     public priorityqueue(int[] arr,boolean isMax){
-        intialize(isMax);
+        initialize(isMax);
         for(int ele : arr) pq.add(ele);
         constructHeap();
     }
 
     public priorityqueue(){
-        intialize(true);   
+        initialize(true);   
     }
 
-    private void intialize(boolean isMax){
+    private void initialize(boolean isMax){
         pq = new ArrayList<>();
         isMaxHeap = isMax;
     }
@@ -109,7 +108,7 @@ public class priorityqueue{
 
         public void heapsort(int arr[] )
         {
-            intialize(true);
+            initialize(true);
             for(int ele : arr) pq.add(ele);
             constructHeap();
 

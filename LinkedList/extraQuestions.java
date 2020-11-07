@@ -1,5 +1,16 @@
 // leetcode 445
 
+public class extraQuestions{
+
+    public class ListNode {
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+    }
+
+
 public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 
     if(l1 == null){
@@ -63,4 +74,7 @@ private ListNode helper(ListNode l1, ListNode l2, int len1, int len2){
         node.val = (nextvalue + l1.val + l2.val)/10;
     }
     return node;
+}
+
+
 }

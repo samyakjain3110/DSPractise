@@ -1,3 +1,6 @@
+import java.util.* ;
+
+
 // leetcode 445
 
 public class extraQuestions{

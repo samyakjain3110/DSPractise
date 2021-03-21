@@ -8,6 +8,7 @@ public class Seive_of_Erastosthenes {
 
         HashMap<Integer,Integer> map = new HashMap<> () ;
 
+        // divide the number by 2 till possible
         while (n%2==0) 
         { 
             n /= 2; 

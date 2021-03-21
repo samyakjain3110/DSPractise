@@ -14,7 +14,7 @@ public class practise2 {
         }
     }
 
-    static int N = 10 ;
+    static int N = 7 ;
 
     static ArrayList<Edge>[] graph = new ArrayList[N] ;
 
@@ -40,9 +40,7 @@ public class practise2 {
         addEdge(4,5,2);
         addEdge(5,6,3);
         addEdge(4,6,8);
-        addEdge(7,8,1);
-        addEdge(9,8,1);
-        addEdge(7,9,1);
+        addEdge(0,6,8); 
  
         // display();
     }
@@ -51,7 +49,7 @@ public class practise2 {
     public static void display()
     {
         StringBuilder sb = new StringBuilder() ;
-
+            
         for(int idx = 0 ; idx < N ;idx++ )
         {
             for(Edge e : graph[idx])
@@ -106,6 +104,86 @@ public class practise2 {
     //     }
     //     return area + 1 ;
     // }
+
+
+    public static int hasPath(int src, int dest, boolean vis[])
+    {
+        
+        if(dest == src)
+        return 1; 
+        
+        vis[src] = true ;
+        int count = 0 ;
+
+        for(Edge e: graph[src])
+        {
+            if(!vis[e.v])
+            {
+                count += hasPath(e.v, dest, vis) ;
+            }
+        }
+
+        vis[src] = false ;
+        return count ;
+    }
+
+    public static void weightPath(int src, int dest ,int wt, boolean vis[],String Path)
+    {
+        if(src == dest)
+        {
+            System.out.println(Path + " @ " + wt) ;
+        }
+
+        vis[src] = true ;
+
+        for(Edge e : graph[src])
+        {
+            if(!vis[e.v])
+            {
+                weightPath(e.v, dest, wt + e.wt, vis,Path + src + " ") ;
+            }
+        }
+
+        vis[src] = false ;
+    }
+
+    public static class Pair{
+        int wt ;
+        String path ;
+
+        Pair(int wt, String path)
+        {
+            this.wt = wt ;      
+            this.path = path ;
+        }
+    }
+
+    public static Pair heavywtPath(int src, int dest, boolean vis[],int wt,String path)
+    {
+        if(src == dest )
+        {
+            Pair P = new Pair(wt,path + src + "") ;
+            return P ;
+        }
+
+        vis[src] = true ;
+
+        Pair maxP = new Pair(0,"") ;
+        for(Edge e : graph[src])
+        {
+            if(!vis[e.v])
+            {
+                Pair ansP = heavywtPath(e.v,dest, vis, wt + e.wt,path + src + " ") ; 
+                if(ansP.wt > maxP.wt)
+                {
+                    maxP = ansP ;
+                }
+            }
+        }
+        vis[src] = false ;
+
+        return maxP ;
+    }
 
     public static void gcc()
     {
@@ -238,6 +316,48 @@ public class practise2 {
         }
     }
 
+    public static int findEdge(int src,int dest)
+    {
+        int res = -1 ;
+        
+        for(int idx = 0 ;idx < graph[src].size() ;idx++)
+        {
+            Edge e = graph[src].get(idx) ;
+            if(e.v == dest)
+            {
+                return res = idx ;
+            }
+        }
+        return res ;
+    }
+
+    public static void hamintonianPath(int src,int osrc, int vtxCount ,boolean vis[],String Path)
+    {
+        if(vtxCount == N - 1)
+        {
+            if(findEdge(src,osrc) != -1 )
+            {
+                System.out.println("Cycle found at :" + src + " <-> " + osrc) ;
+            }
+            else
+            {
+                // System.out.println(src + " " + osrc + " are not connected ") ;
+                System.out.println("Hamintonian Path : " + Path + src ) ;
+            }
+        }
+
+        vis[src] = true ;
+        for(Edge e : graph[src])
+        {
+            if(!vis[e.v])
+            {
+                // System.out.println("going from " + src + " -> " + e.v) ;
+                hamintonianPath(e.v,osrc,vtxCount + 1, vis,Path + src + " ") ;
+            }
+        }
+        vis[src] = false ;
+    }
+
 
 // ======================================================================================
 
@@ -247,14 +367,23 @@ public static void solve()
 
         // gcc() ;
         boolean vis[] = new boolean[N] ;
-        for(int idx = 0 ;idx < N ;idx++ )
-        {
-            if(!vis[idx]) 
-            // BFS(idx,vis) ;
-            bfs3(idx,vis) ;
-        }
+        // for(int idx = 0 ;idx < N ;idx++ )
+        // {
+        //     if(!vis[idx]) 
+        //     // BFS(idx,vis) ;
+        //     bfs3(idx,vis) ;
+        // }
         // GCC() ;
         // display() ;
+
+        // weightPath(0,6,0,new boolean[10],"") ;
+        // Pair ans = heavywtPath(0,6,new boolean[10],0,"") ;
+        // System.out.println(ans.path + " @ " + ans.wt ) ;
+        for(int idx = 0 ;idx < N ;idx++ )
+        {
+            System.out.println("Starting journey from " + idx) ;
+            hamintonianPath(idx,idx,0,new boolean[N],"") ;
+        }
     }
 
 

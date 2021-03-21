@@ -74,7 +74,7 @@ public class questions{
             int r = i + dir[d][0];
             int c = j + dir[d][1];
             
-            if(r>=0 && c>=0 && r<n && c<m&& grid[r][c]==1)
+            if(r>=0 && c>=0 && r<n && c<m && grid[r][c]==1)
                 count+=dfsIsland(r,c,grid);
         }
         

@@ -22,9 +22,30 @@ public class Getting_started {
         // int high = scn.nextInt() ;
         // print_all_primes(low, high) ;
 
-        int n = scn.nextInt() ;
-        print_fibonacci(n) ;
+        // int n = scn.nextInt() ;
+        // print_fibonacci(n) ;
+
+        // int n = scn.nextInt() ;
+        // System.out.println(count_no_of_dig(n)) ;
+        // String n = scn.nextLine() ;
+        // System.out.println(count_no_dig_any_len(n)) ;
         
+        int n = scn.nextInt() ;
+        print_reverse_num(n) ;
+
+    }
+
+
+    public static void print_reverse_num(int n )
+    {
+        int rev_num = 0 ;
+        while( n > 0)
+        {
+            int dig = n % 10 ;
+            rev_num = ( rev_num * 10 ) + dig ;
+            n /= 10 ;
+        }
+        System.out.println(rev_num) ;
     }
 
     public static void printz(int n)
@@ -99,7 +120,7 @@ public class Getting_started {
     public static void print_fibonacci(int n )
     {
         int first = 0 ;
-        int second = 0 ; 
+        int second = 1 ; 
         int third = 1 ;
 
         // 001
@@ -111,13 +132,33 @@ public class Getting_started {
         for(int i = 0 ; i < n ;i++ )
         {
 
+            System.out.println(first) ;
+
             first = second ;
             second = third ;
             third = first + second ;
 
-            System.out.println(first) ;
-
         }
     }
+
+    public static int count_no_of_dig(int n )
+    {
+        int dig = 0 ;
+        while(n > 0)
+        {
+            dig++ ;
+            n /= 10 ;
+        }
+
+        return dig ;
+    }
+
+    public static int count_no_dig_any_len(String n)
+    {
+        return n.length() ;
+    }
+
+
+
 
 }

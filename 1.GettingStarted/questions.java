@@ -1,4 +1,5 @@
 import java.lang.Math;
+import java.util.Scanner;
 
 public class questions {
 
@@ -89,6 +90,57 @@ public class questions {
 
         return inverted_number;
     }
+    
+    public static int get_num_length(int num)
+    {
+        int number = num;
+        int len = 0;
+        while(number>0)
+        {
+            len++;
+            number = number/10;
+        }
+        return len;
+    }
+
+    public static int rotate_a_number(int num,int k)
+    {   
+        int number = num;
+        int number_len = get_num_length(number);
+        if(k<0)
+        {
+            k = number_len + k;
+        }
+        int multiplier = (int) Math.pow(10,number_len - k);
+        int divider = (int) Math.pow(10,k);
+        // 12345 -> 2 -> 45123
+        // 12345 -> -2 -> 34512
+        // 1. get multiplier and divider
+        // 2. get right_digits*multiplier + left_digits/divider 
+        int left_dig = number/divider;
+        int right_dig = (number % divider)*multiplier;
+        int rotated_num = right_dig + left_dig;
+        return rotated_num;
+    }
+
+    public static int greatestCommonDiviser(int n1,int n2)
+    {
+        int gcd = 1;
+
+        // 14 , 32, 34,42
+        int divident = n1 ;
+        int divisor = n2;
+        int remainder = divident % divisor;
+        while(remainder>0)
+        {
+            divident = divisor;
+            divisor = remainder;
+            remainder = divident % divisor;
+        }
+        gcd = divisor;
+        return gcd;
+    }
+
 
     public static void temp(int n)
     {
@@ -108,6 +160,11 @@ public class questions {
         // System.out.println(inverse_of_a_number(34152));
         // int n = 5;
         // temp(n);
+        // Scanner scn = new Scanner(System.in);
+        // int k = scn.nextInt();
+        // System.out.println(rotate_a_number(12345,-2));
+        // System.out.println(greatestCommonDiviser(14,37));
+        // primeFactorization(14);
         
     }
 }
